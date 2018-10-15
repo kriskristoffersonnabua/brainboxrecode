@@ -1,0 +1,3 @@
+rootProject.name = 'brainboxrecode'
+
+include ':app'
