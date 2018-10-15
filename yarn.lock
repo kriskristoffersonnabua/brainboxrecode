@@ -1369,6 +1369,10 @@ braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
+brcast@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/brcast/-/brcast-2.0.2.tgz#2db16de44140e418dc37fab10beec0369e78dcef"
+
 browser-process-hrtime@^0.1.2:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-0.1.3.tgz#616f00faef1df7ec1b5bf9cfe2bdc3170f26c7b4"
@@ -2234,6 +2238,12 @@ getpass@^0.1.1:
   resolved "https://registry.yarnpkg.com/getpass/-/getpass-0.1.7.tgz#5eff8e3e684d569ae4cb2b1282604e8ba62149fa"
   dependencies:
     assert-plus "^1.0.0"
+
+glamorous-native@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/glamorous-native/-/glamorous-native-1.4.0.tgz#22c331e354f1fda59d8e57b245f2b09dc2463b14"
+  dependencies:
+    brcast "^2.0.0"
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -3835,6 +3845,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opencollective-postinstall@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.0.tgz#5fe062f2706bb84150f7fb1af9f1277e46ec1388"
+
 opn@^3.0.2:
   version "3.0.3"
   resolved "http://registry.npmjs.org/opn/-/opn-3.0.3.tgz#b6d99e7399f78d65c3baaffef1fb288e9b85243a"
@@ -4158,6 +4172,13 @@ react-devtools-core@^3.4.0:
 react-is@^16.6.0-alpha.8af6728:
   version "16.6.0-alpha.8af6728"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.0-alpha.8af6728.tgz#3ce01f13f164b90a76ad902735834fc12d06e30e"
+
+react-native-firebase@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.0.0.tgz#8cdc24e5f705146f5d031ca319f9310e0b4ce5f4"
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    prop-types "^15.6.2"
 
 react-native@0.57.3:
   version "0.57.3"
