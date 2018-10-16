@@ -16,7 +16,8 @@ const brainboxTheme = {
 		nightrider: '#2b2b2b',
 		roman: '#e66464',
 		snow: '#fafafa',
-		sulu: '#bdf287'
+		sulu: '#bdf287',
+		whitesmoke: '#f0f0f0'
 	}
 }
 

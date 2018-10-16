@@ -5,7 +5,7 @@ import LocalImage from './LocalImage'
 // import RadioButton from './RadioButton'
 import String from './String'
 // import Subjects from './Subjects'
-// import TextField from './TextField'
+import Textfield from './Textfield'
 // import TutorCard from './TutorCard'
 import ThemedComponent from './ThemedComponent'
 
@@ -15,9 +15,9 @@ module.exports = {
 	ThemedComponent,
 	// Header,
 	// LoadingPage,
-	LocalImage
+	LocalImage,
 	// RadioButton,
 	// Subjects,
-	// TextField,
+	Textfield
 	// TutorCard,
 }

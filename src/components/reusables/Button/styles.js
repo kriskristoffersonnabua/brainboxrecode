@@ -1,4 +1,3 @@
-import { Text, TouchableOpacity } from 'react-native'
 import glamorous from 'glamorous-native'
 
 export const StyledTouchableOpacity = glamorous.touchableOpacity(

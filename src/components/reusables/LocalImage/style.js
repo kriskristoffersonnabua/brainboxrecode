@@ -1,4 +1,3 @@
-import { Image } from 'react-native'
 import glamorous from 'glamorous-native'
 import { deviceWidth } from '../../../../lib/device'
 

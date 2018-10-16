@@ -1,4 +1,3 @@
-import { Text } from 'react-native'
 import glamorous from 'glamorous-native'
 
 export const StyledText = glamorous.text(
