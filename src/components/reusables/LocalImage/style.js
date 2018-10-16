@@ -3,19 +3,19 @@ import { deviceWidth } from '../../../../lib/device'
 
 export const StyledImage = glamorous.image(props => {
 	let width, height
-	if (scale) {
+	if (props.scale) {
 		//scale props: originalWidth, originalHeight, widthPadding
 		let windowWidth = deviceWidth
 		let widthChange =
-			(deviceWidth - (props.widthPadding || 0)) / originalWidth
-		width = originalWidth * widthChange
-		height = originalHeight * widthChange
+			(deviceWidth - (props.widthPadding || 0)) / props.originalWidth
+		width = props.originalWidth * widthChange
+		height = props.originalHeight * widthChange
 	} else if (resize) {
-		width = newWidth
-		height = newHeight
+		width = props.newWidth
+		height = props.newHeight
 	} else {
-		width = originalWidth
-		height = originalHeight
+		width = props.originalWidth
+		height = props.originalHeight
 	}
 	return {
 		width,
