@@ -1,7 +1,7 @@
 import Button from './Button'
 // import Header from './Header'
 // import LoadingPage from './LoadingPage'
-// import LocalImage from './LocalImage'
+import LocalImage from './LocalImage'
 // import RadioButton from './RadioButton'
 import String from './String'
 // import Subjects from './Subjects'
@@ -12,10 +12,10 @@ import ThemedComponent from './ThemedComponent'
 module.exports = {
 	Button,
 	String,
-	ThemedComponent
+	ThemedComponent,
 	// Header,
 	// LoadingPage,
-	// LocalImage,
+	LocalImage
 	// RadioButton,
 	// Subjects,
 	// TextField,
