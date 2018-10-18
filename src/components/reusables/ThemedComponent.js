@@ -17,7 +17,8 @@ const brainboxTheme = {
 		roman: '#e66464',
 		snow: '#fafafa',
 		sulu: '#bdf287',
-		whitesmoke: '#f0f0f0'
+		whitesmoke: '#f0f0f0',
+		white: '#ffffff'
 	}
 }
 
