@@ -10,7 +10,7 @@ export const StyledImage = glamorous.image(props => {
 			(deviceWidth - (props.widthPadding || 0)) / props.originalWidth
 		width = props.originalWidth * widthChange
 		height = props.originalHeight * widthChange
-	} else if (resize) {
+	} else if (props.resize) {
 		width = props.newWidth
 		height = props.newHeight
 	} else {
