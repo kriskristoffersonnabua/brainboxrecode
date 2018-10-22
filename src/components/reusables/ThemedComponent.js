@@ -6,9 +6,9 @@ const brainboxTheme = {
 		bold: 'RobotoMonoBold',
 		italic: 'RobotoMonoItalic',
 		regular: 'RobotoMonoRegular',
-		header: 20,
-		label: 17,
-		paragraph: 15
+		header: 18,
+		label: 16,
+		paragraph: 14
 	},
 	colors: {
 		crusta: '#e9905c',

@@ -84,9 +84,8 @@ export default class User {
 		const {
 			email,
 			password,
-			firstname = '',
-			lastname = '',
-			middlename = '',
+			first_name = '',
+			last_name = '',
 			birthday = Date.now(),
 			contact = '',
 			accountType = 1 //default to client
@@ -102,9 +101,8 @@ export default class User {
 					} = response
 					if (isNewUser) {
 						database.ref(`userprofile/${uid}`).set({
-							firstname,
-							lastname,
-							middlename,
+							first_name,
+							last_name,
 							birthday,
 							contact,
 							accountType,
