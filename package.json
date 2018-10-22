@@ -11,6 +11,7 @@
 		"lodash": "^4.17.11",
 		"react": "16.6.0-alpha.8af6728",
 		"react-native": "0.57.3",
+		"react-native-fbsdk": "^0.8.0",
 		"react-native-firebase": "^5.0.0",
 		"react-native-modal-dropdown": "^0.6.2"
 	},

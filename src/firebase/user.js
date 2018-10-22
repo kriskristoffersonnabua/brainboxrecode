@@ -1,9 +1,17 @@
-import { database, auth } from './firebase'
+import { database, auth, firebase } from './firebase'
 import { Alert, AsyncStorage } from 'react-native'
+const facebook = require('react-native-fbsdk')
+const {
+	LoginManager,
+	AccessToken,
+	GraphRequest,
+	GraphRequestManager
+} = facebook
 
 /*
-  firstname: String
-  lastname: String
+  first_name: String
+  last_name: String
+  picture: String/Object
   contact: String
   address: String
   birthday: Date.now()
@@ -15,6 +23,54 @@ import { Alert, AsyncStorage } from 'react-native'
   accountType: Number //0-tutor, 1-client, 2-admin
   */
 export default class User {
+	static loginWithFacebook() {
+		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+			response => {
+				if (response.isCancelled) {
+					Alert.alert('Whoops', 'You canceled the sign in.')
+				} else {
+					AccessToken.getCurrentAccessToken().then(data => {
+						const credential = firebase.auth.FacebookAuthProvider.credential(
+							data.accessToken
+						)
+						auth
+							.signInWithCredential(credential)
+							.then(response => {
+								if (
+									!!response &&
+									response.additionalUserInfo.isNewUser
+								) {
+									const { user: { uid } } = response
+									const infoRequest = new GraphRequest(
+										'/me?fields=email,first_name,last_name,picture',
+										null,
+										async (error, graph) => {
+											if (!!graph) {
+												database
+													.ref(`userprofile/${uid}`)
+													.set(graph)
+											} else if (!!error) {
+												Alert.alert(
+													'Whoops',
+													'Something went wrong'
+												)
+											}
+										}
+									)
+									new GraphRequestManager()
+										.addRequest(infoRequest)
+										.start()
+								}
+							})
+							.catch(error =>
+								Alert.alert('Whoops', 'Something went wrong.')
+							)
+					})
+				}
+			}
+		)
+	}
+
 	static loginUserWithEmailPassword(data) {
 		const { email, password } = data
 		auth.signInWithEmailAndPassword(email, password).then(response => {
