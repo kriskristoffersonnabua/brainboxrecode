@@ -8,7 +8,7 @@ import {
 
 export default (Radiobutton = ({
 	active,
-	onPress,
+	onPress = () => {},
 	style = {},
 	innerStyle = {},
 	text,

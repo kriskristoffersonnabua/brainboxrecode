@@ -24,11 +24,11 @@ export default (TextField = ({
 					date: new Date()
 				})
 				if (action != DatePickerAndroid.dismissedAction) {
-					const newDate = new Date(year, month, day).valueOf()
+					const newDate = new Date(year, month, day)
 
 					const data = newDate.toString().split(' ')
 					const newDateString = `${data[1]} ${data[2]}, ${data[3]}`
-					callback({ newDate, newDateString })
+					callback({ newDate: newDate.valueOf(), newDateString })
 				}
 			}
 		}

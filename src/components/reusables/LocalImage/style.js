@@ -15,7 +15,7 @@ export const StyledImage = glamorous.image(
 			width = props.newWidth
 			height = props.newHeight
 		} else {
-			width = '100%'
+			width = 'auto'
 			height = 'auto'
 		}
 		return {
