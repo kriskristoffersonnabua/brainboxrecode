@@ -47,7 +47,7 @@ export const StyledText = glamorous.text(
 		}
 	},
 	props => {
-		let customStyles = !!props.style ? { ...props.style } : null
-		return customStyles
+		let customTextStyles = !!props.textStyle ? { ...props.textStyle } : null
+		return customTextStyles
 	}
 )
