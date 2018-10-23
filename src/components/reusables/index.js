@@ -6,6 +6,7 @@ import RadioButton from './RadioButton'
 import String from './String'
 import Subjects from './Subjects'
 import Textfield from './Textfield'
+import Dash from './Dash'
 // import TutorCard from './TutorCard'
 import ThemedComponent from './ThemedComponent'
 
@@ -18,6 +19,7 @@ module.exports = {
 	LocalImage,
 	RadioButton,
 	Subjects,
-	Textfield
+	Textfield,
+	Dash
 	// TutorCard,
 }

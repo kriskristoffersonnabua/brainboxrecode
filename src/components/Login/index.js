@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-	AsyncStorage,
 	Image,
 	StyleSheet,
 	Text,
@@ -13,7 +12,8 @@ import {
 	Textfield,
 	String,
 	RadioButton,
-	LocalImage
+	LocalImage,
+	Dash
 } from '../reusables'
 import { LoginContainer } from './style'
 import { User } from '../../firebase'
@@ -58,15 +58,7 @@ export default class Login extends React.Component {
 					text="Login"
 					onPress={this.login}
 				/>
-				<View
-					style={{
-						width: '100%',
-						borderWidth: 1,
-						borderColor: '#f0f0f0',
-						marginBottom: 30,
-						marginTop: 30
-					}}
-				/>
+				<Dash />
 				<String
 					style={{ marginBottom: 20 }}
 					bold
@@ -80,15 +72,7 @@ export default class Login extends React.Component {
 					text="Facebook"
 					onPress={this.loginWithFacebook}
 				/>
-				<View
-					style={{
-						width: '100%',
-						borderWidth: 1,
-						borderColor: '#f0f0f0',
-						marginBottom: 30,
-						marginTop: 30
-					}}
-				/>
+				<Dash />
 				<String text={'Do not have an account, go to '} />
 				<TouchableOpacity onPress={this.props.goToSignupPage}>
 					<String
