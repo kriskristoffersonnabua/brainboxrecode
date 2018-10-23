@@ -36,6 +36,7 @@ export default class Signup extends React.Component {
 			birthdayToString: ''
 		}
 	}
+
 	render() {
 		return (
 			<ContainerWithScroll>
@@ -133,7 +134,8 @@ export default class Signup extends React.Component {
 								height: 40
 							}}
 						/>
-						<TouchableOpacity onPress={this.props.goToLoginPage}>
+						<TouchableOpacity
+							onPress={this.props.toggleSignupLoginPage}>
 							<String
 								style={{
 									borderRadius: 20,
@@ -152,6 +154,7 @@ export default class Signup extends React.Component {
 			</ContainerWithScroll>
 		)
 	}
+
 	changeAccountType = event => {
 		switch (this.state.accountType) {
 			case AccountType.Client:
@@ -165,6 +168,7 @@ export default class Signup extends React.Component {
 				})
 		}
 	}
+
 	submitData = event => {
 		const {
 			email,

@@ -1,5 +1,5 @@
 import { database, auth, firebase } from './firebase'
-import { Alert, AsyncStorage } from 'react-native'
+import { Alert } from 'react-native'
 const facebook = require('react-native-fbsdk')
 const {
 	LoginManager,
@@ -73,11 +73,12 @@ export default class User {
 
 	static loginUserWithEmailPassword(data) {
 		const { email, password } = data
-		auth.signInWithEmailAndPassword(email, password).then(response => {
-			const { user: { metadata: { lastSignInTime }, uid } } = response
-			let token = `${uid}-${lastSignInTime}`
-			AsyncStorage.setItem('brainboxtoken', token)
-		})
+		auth
+			.signInWithEmailAndPassword(email, password)
+			.then(response => {
+				Alert.alert('Login Successfull.')
+			})
+			.catch(exception => Alert.alert(exception.message))
 	}
 
 	static signupUser(data) {
@@ -95,6 +96,7 @@ export default class User {
 			.createUserWithEmailAndPassword(email, password)
 			.then(response => {
 				if (!!response) {
+					Alert.alert('Account Created')
 					const {
 						additionalUserInfo: { isNewUser },
 						user: { uid }
@@ -127,5 +129,19 @@ export default class User {
 					} else Alert.alert('Update Successful.')
 				})
 		}
+	}
+
+	static getLoggedInUser() {
+		let user = auth.currentUser
+		return user
+	}
+
+	static signoutUser() {
+		!!auth && !!auth.signOut && auth.signOut()
+	}
+
+	static async getUserProfile() {
+		// const {uid} = auth.currentUser
+		// database.ref(`userprofile/${uid}`)
 	}
 }

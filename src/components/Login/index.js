@@ -74,7 +74,7 @@ export default class Login extends React.Component {
 				/>
 				<Dash />
 				<String text={'Do not have an account, go to '} />
-				<TouchableOpacity onPress={this.props.goToSignupPage}>
+				<TouchableOpacity onPress={this.props.toggleSignupLoginPage}>
 					<String
 						style={{
 							padding: 10,
@@ -90,9 +90,14 @@ export default class Login extends React.Component {
 		)
 	}
 
-	loginWithFacebook = () => {}
+	loginWithFacebook = () => {
+		User.loginWithFacebook()
+	}
 
-	login = () => {}
+	login = () => {
+		const { email, password } = this.state
+		User.loginUserWithEmailPassword({ email, password })
+	}
 }
 
 const styles = StyleSheet.create({
