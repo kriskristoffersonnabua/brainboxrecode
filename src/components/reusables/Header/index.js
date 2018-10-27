@@ -61,8 +61,11 @@ export default class Header extends React.Component {
 				</View>
 				{openMenu ? (
 					<View>
-						<MenuItem text={'account settings'} />
-						<MenuItem text={'log out'} />
+						<MenuItem text={'Settings'} />
+						<MenuItem
+							text={'Sign Out'}
+							onPress={this.props.signOut}
+						/>
 					</View>
 				) : null}
 			</View>

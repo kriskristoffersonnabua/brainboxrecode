@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
+import TutorList from './Tutors'
 
 const FirstRoute = () => (
 	<View style={[styles.container, { backgroundColor: '#ff4081' }]} />
@@ -13,8 +14,8 @@ export default class TabViewExample extends React.Component {
 	state = {
 		index: 0,
 		routes: [
-			{ key: 'first', title: 'First' },
-			{ key: 'second', title: 'Second' }
+			{ key: 'first', title: 'Services' },
+			{ key: 'second', title: 'Tutors' }
 		]
 	}
 
@@ -24,7 +25,7 @@ export default class TabViewExample extends React.Component {
 				navigationState={this.state}
 				renderScene={SceneMap({
 					first: FirstRoute,
-					second: SecondRoute
+					second: TutorList
 				})}
 				onIndexChange={index => this.setState({ index })}
 				initialLayout={{
