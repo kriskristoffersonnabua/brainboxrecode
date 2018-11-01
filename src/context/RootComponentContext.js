@@ -17,10 +17,12 @@ const RootComponentProvider = class extends React.Component {
 
 	componentDidMount() {
 		auth.onAuthStateChanged(user => {
-			this.setState({
-				loggedInUser: user,
-				rootComponentLoading: false
-			})
+			setTimeout(() => {
+				this.setState({
+					loggedInUser: user,
+					rootComponentLoading: false
+				})
+			}, 500)
 		})
 	}
 

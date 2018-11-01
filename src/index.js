@@ -1,12 +1,15 @@
 import React from 'react'
 import { RootComponentProvider } from './context/RootComponentContext'
 import { TutorListProvider } from './context/TutorListContext'
+import { AccountSettingsProvider } from './context/AccountSettingsContext'
 import RootComponent from './RootComponent'
 
 export default () => (
 	<RootComponentProvider>
-		<TutorListProvider>
-			<RootComponent />
-		</TutorListProvider>
+		<AccountSettingsProvider>
+			<TutorListProvider>
+				<RootComponent />
+			</TutorListProvider>
+		</AccountSettingsProvider>
 	</RootComponentProvider>
 )

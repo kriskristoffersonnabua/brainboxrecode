@@ -136,13 +136,18 @@ export default class User {
 		return user
 	}
 
-	static signoutUser() {
-		!!auth && !!auth.signOut && auth.signOut()
+	static getUserProfile(uid) {
+		return firebase
+			.database()
+			.ref(`userprofile/${uid}`)
+			.once('value')
+			.then(function(snapshot) {
+				return snapshot.val()
+			})
 	}
 
-	static async getUserProfile() {
-		// const {uid} = auth.currentUser
-		// database.ref(`userprofile/${uid}`)
+	static signoutUser() {
+		!!auth && !!auth.signOut && auth.signOut()
 	}
 
 	static getAllUsers() {
@@ -154,7 +159,7 @@ export default class User {
 		let tutors = database
 			.child('userprofile')
 			.orderByChild('accountType')
-			.equalTo(1)
+			.equalTo(0)
 		return tutors
 	}
 }
