@@ -7,6 +7,7 @@ export default (TextField = ({
 	timepicker,
 	callback = () => {},
 	style = {},
+	format24Hour,
 	secure,
 	...otherProps
 }) => {

@@ -42,33 +42,35 @@ export default class Header extends React.Component {
 	render() {
 		const { openMenu } = this.state
 		return (
-			<View
-				style={{
-					flex: 1,
-					justifyContent: 'flex-start',
-					backgroundColor: '#fafafa'
-				}}>
+			<View style={styles.headerContainer}>
 				<View style={styles.headerBar}>
 					<TouchableOpacity onPress={() => this._toggleMenu()}>
 						<LocalImage
+							resize
 							source={require('../../../../assets/images/avatars/defaultTutorAvatar.png')}
-							originalWidth={57}
-							originalHeight={61}
+							newWidth={57}
+							newHeight={61}
 						/>
 					</TouchableOpacity>
 					<LocalImage
+						resize
 						source={require('../../../../assets/images/bboxTitlePage.png')}
-						originalWidth={160}
-						originalHeight={50}
+						newWidth={160}
+						newHeight={50}
 					/>
 				</View>
 				{openMenu ? (
 					<View>
-						<MenuItem text={'account settings'} />
-						<MenuItem text={'log out'} />
+						<MenuItem
+							text={'Settings'}
+							onPress={this.props.toggleSettings}
+						/>
+						<MenuItem
+							text={'Sign Out'}
+							onPress={this.props.signOut}
+						/>
 					</View>
 				) : null}
-				<View style={{ flex: 1, backgroundColor: 'blue' }} />
 			</View>
 		)
 	}
@@ -80,8 +82,7 @@ export default class Header extends React.Component {
 
 const styles = StyleSheet.create({
 	headerContainer: {
-		flex: 1,
-		maxHeight: 150
+		width: '100%'
 	},
 	headerBar: {
 		padding: 5,

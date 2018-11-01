@@ -144,4 +144,17 @@ export default class User {
 		// const {uid} = auth.currentUser
 		// database.ref(`userprofile/${uid}`)
 	}
+
+	static getAllUsers() {
+		let users = database.child('userprofile')
+		return users
+	}
+
+	static getAllTutors() {
+		let tutors = database
+			.child('userprofile')
+			.orderByChild('accountType')
+			.equalTo(1)
+		return tutors
+	}
 }

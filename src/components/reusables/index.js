@@ -7,7 +7,7 @@ import String from './String'
 import Subjects from './Subjects'
 import Textfield from './Textfield'
 import Dash from './Dash'
-// import TutorCard from './TutorCard'
+import TutorCard from './TutorCard'
 import ThemedComponent from './ThemedComponent'
 
 module.exports = {
@@ -20,6 +20,6 @@ module.exports = {
 	RadioButton,
 	Subjects,
 	Textfield,
-	Dash
-	// TutorCard,
+	Dash,
+	TutorCard
 }
