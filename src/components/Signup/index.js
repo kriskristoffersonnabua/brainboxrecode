@@ -59,13 +59,13 @@ export default class Signup extends React.Component {
 						/>
 						<AccountTypeChoice>
 							<RadioButton
-								onPress={this.changeAccountType}
-								active={this.state.accountType === 1}
+								onPress={this.changeAccountTypeToTutor}
+								active={this.state.accountType === 0}
 								text={'Tutor'}
 							/>
 							<RadioButton
-								onPress={this.changeAccountType}
-								active={this.state.accountType === 0}
+								onPress={this.changeAccountTypeToClient}
+								active={this.state.accountType === 1}
 								text={'Client'}
 							/>
 						</AccountTypeChoice>
@@ -155,19 +155,8 @@ export default class Signup extends React.Component {
 		)
 	}
 
-	changeAccountType = event => {
-		switch (this.state.accountType) {
-			case AccountType.Client:
-				this.setState({
-					accountType: AccountType.Tutor
-				})
-				break
-			case AccountType.Tutor:
-				this.setState({
-					accountType: AccountType.Client
-				})
-		}
-	}
+	changeAccountTypeToTutor = () => this.setState({ accountType: 0 })
+	changeAccountTypeToClient = () => this.setState({ accountType: 1 })
 
 	submitData = event => {
 		const {

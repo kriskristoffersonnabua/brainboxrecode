@@ -33,7 +33,7 @@ class RootComponent extends React.Component {
 		} = this.state
 		let component
 		if (rootComponentLoading) {
-			component = <LoadingPage />
+			component = <LoadingPage text={'Loading Brainbox Application'} />
 		} else if (!loggedInUser) {
 			if (showSignupPage) {
 				component = (

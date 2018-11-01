@@ -6,6 +6,8 @@ import {
 	Alert,
 	LayoutAnimation
 } from 'react-native'
+import Textfield from './Textfield'
+import Button from './Button'
 import String from './String'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { CustomLayoutSpring } from '../../../lib/device'
@@ -31,7 +33,7 @@ class Subjects extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			subjects: props.subjects || [],
+			subjects: [],
 			availableSubjects: [
 				'College Algebra 1',
 				'Chemistry 3',
@@ -41,10 +43,13 @@ class Subjects extends Component {
 			]
 		}
 	}
-	componentWillReceiveProps(nextProps) {
+
+	static getDerivedStateFromProps(nextProps) {
 		const { subjects } = nextProps
+		return { subjects }
 		this.setState({ subjects })
 	}
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -55,6 +60,7 @@ class Subjects extends Component {
 						marginBottom: 5
 					}}>
 					{this.state.subjects &&
+						!!this.state.subjects.length &&
 						this.state.subjects.map((subject, index) => {
 							return (
 								<Subject
@@ -65,60 +71,76 @@ class Subjects extends Component {
 									}
 									key={index}
 									index={index}
-									subject={subject}
+									subject={`${subject}${
+										this.props.readOnly ? '' : '  x'
+									}`}
 									random={index % (colors.length - 1)}
 								/>
 							)
 						})}
 				</View>
 				{!this.props.readOnly ? (
-					<ModalDropdown
+					<View
 						style={{
-							width: 80,
-							borderWidth: 1,
-							borderColor: '#979797',
-							borderRadius: 5,
-							padding: 5,
-							alignSelf: 'center'
-						}}
-						defaultValue={'Add Subject'}
-						dropdownStyle={{}}
-						onSelect={(index, value) => {
-							LayoutAnimation.configureNext(CustomLayoutSpring)
-							let subjects = this.state.subjects || []
-							subjects.push(value)
-							this.setState(
-								{ subjects },
-								() =>
-									!!this.props.allSubjectsCallback &&
-									this.props.allSubjectsCallback(
-										this.state.subjects
-									)
-							)
-						}}
-						renderButtonText={() => 'Add Subject'}
-						options={this.state.availableSubjects}
-					/>
+							width: '100%',
+							paddingLeft: 10,
+							paddingRight: 10,
+							flexDirection: 'row',
+							justifyContent: 'flex-start',
+							alignItems: 'center'
+						}}>
+						<Textfield
+							placeholder={'Subject'}
+							style={{ width: '50%', marginRight: 10 }}
+							onChangeText={text =>
+								this.setState({ subjectToAdd: text })
+							}
+							value={this.state.subjectToAdd}
+						/>
+						<Button
+							text={'Add Subject'}
+							style={{ width: '30%' }}
+							onPress={this.addSubject}
+						/>
+					</View>
 				) : null}
 			</View>
 		)
 	}
+
 	_popSubject = index => {
 		let subjects = this.state.subjects
 		subjects.splice(index, 1)
+		if (subjects === undefined) {
+			subjects = []
+		}
+		this.setState({ subjects }, () => {
+			!!this.props.allSubjectsCallback &&
+				this.props.allSubjectsCallback(subjects)
+		})
+	}
+
+	addSubject = () => {
+		const { subjectToAdd, subjects } = this.state
+		let newsubjects = subjects
+		newsubjects.push(subjectToAdd)
 		this.setState(
-			{ subjects },
-			() =>
+			{
+				subjects: newsubjects,
+				subjectToAdd: ''
+			},
+			() => {
 				!!this.props.allSubjectsCallback &&
-				this.props.allSubjectsCallback(this.state.subjects)
+					this.props.allSubjectsCallback(newsubjects)
+			}
 		)
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		width: '100%',
+		height: 'auto',
 		marginBottom: 10
 	}
 })
