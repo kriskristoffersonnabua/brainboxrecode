@@ -20,13 +20,13 @@ import {
 	TextField,
 	RadioButton,
 	Button,
-	Subjects
+	Subjects,
+	Dash
 } from '../../../reusables'
-import Dash from 'react-native-dash'
 import MapView, { Marker } from 'react-native-maps'
 import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
-import { AccountType } from '../../../../lib/constants'
+import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
 
 const Tutee = props => {
@@ -48,8 +48,8 @@ const Tutee = props => {
 			<LocalImage
 				source={
 					props.add
-						? require('../../../../assets/images/icons/plusIcon.png')
-						: require('../../../../assets/images/icons/minusIcon.png')
+						? require('../../../../../assets/images/icons/plusIcon.png')
+						: require('../../../../../assets/images/icons/minusIcon.png')
 				}
 				originalWidth={17}
 				originalHeight={17}
@@ -103,7 +103,7 @@ const AddButtonIcon = props => {
 				marginBottom: 5
 			}}>
 			<LocalImage
-				source={require('../../../../assets/images/icons/plusIcon.png')}
+				source={require('../../../../../assets/images/icons/plusIcon.png')}
 				originalWidth={17}
 				originalHeight={17}
 				style={{ marginRight: 15 }}
@@ -212,7 +212,7 @@ export default class TutorialBooking extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getUserInformation()
+		// this.props.getUserInformation()
 	}
 
 	openSearchModal() {
@@ -247,7 +247,7 @@ export default class TutorialBooking extends Component {
 							style={styles.backButton}
 							onPress={this.props.cancelTutorSelection}>
 							<LocalImage
-								source={require('../../../../assets/images/icons/backButton.png')}
+								source={require('../../../../../assets/images/icons/backButton.png')}
 								resize
 								newWidth={15}
 								newHeight={15}
@@ -267,9 +267,6 @@ export default class TutorialBooking extends Component {
 							height: 2,
 							marginBottom: 10
 						}}
-						dashLength={5}
-						dashGap={5}
-						dashColor={'#979797'}
 					/>
 					<String
 						bold
@@ -462,9 +459,6 @@ export default class TutorialBooking extends Component {
 							marginBottom: 10,
 							marginTop: 10
 						}}
-						dashLength={5}
-						dashGap={5}
-						dashColor={'#979797'}
 					/>
 					<String
 						bold
@@ -549,9 +543,6 @@ export default class TutorialBooking extends Component {
 							height: 2,
 							marginBottom: 10
 						}}
-						dashLength={5}
-						dashGap={5}
-						dashColor={'#979797'}
 					/>
 					<String
 						bold
@@ -569,9 +560,6 @@ export default class TutorialBooking extends Component {
 							height: 2,
 							marginBottom: 10
 						}}
-						dashLength={5}
-						dashGap={5}
-						dashColor={'#979797'}
 					/>
 					<String
 						bold
@@ -816,26 +804,26 @@ export default class TutorialBooking extends Component {
 			}
 
 			try {
-				await this.props.createAppointmentAction(
-					appointmentData,
-					bookedSchedules,
-					generatedLPR,
-					tutorId
-				)
-				Alert.alert('Tutorial has been booked.')
-				if (!!this.props.user) {
-					if ((this.props.user.accountType = AccountType.Client)) {
-						this.props.getAllBookedAppointmentsFromClientId(
-							this.props.user._id
-						)
-					} else if (
-						(this.props.user.accountType = AccountType.Tutor)
-					) {
-						this.props.getAllBookedAppointmentsFromTutorId(
-							this.props.user._id
-						)
-					}
-				}
+				// await this.props.createAppointmentAction(
+				// 	appointmentData,
+				// 	bookedSchedules,
+				// 	generatedLPR,
+				// 	tutorId
+				// )
+				// Alert.alert('Tutorial has been booked.')
+				// if (!!this.props.user) {
+				// 	if ((this.props.user.accountType = AccountType.Client)) {
+				// 		this.props.getAllBookedAppointmentsFromClientId(
+				// 			this.props.user._id
+				// 		)
+				// 	} else if (
+				// 		(this.props.user.accountType = AccountType.Tutor)
+				// 	) {
+				// 		this.props.getAllBookedAppointmentsFromTutorId(
+				// 			this.props.user._id
+				// 		)
+				// 	}
+				// }
 			} catch (exception) {
 				console.log(exception)
 			}
