@@ -13,7 +13,7 @@ import {
 	Text,
 	AsyncStorage
 } from 'react-native'
-import { deviceWidth } from '../../../../lib/device'
+import { deviceWidth } from '../../../../../lib/device'
 import {
 	LocalImage,
 	String,
