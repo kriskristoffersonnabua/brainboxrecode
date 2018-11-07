@@ -121,6 +121,7 @@ export default class TutorialBooking extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			subjects: [],
 			centerBased: true,
 			location: 'somewhere',
 			ott: false,
