@@ -23,7 +23,7 @@ import {
 	Subjects,
 	Dash
 } from '../../../reusables'
-// import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 // import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
@@ -512,6 +512,33 @@ export default class TutorialBooking extends Component {
 								''
 							}
 						/>
+					)}
+					{!this.state.centerBased && (
+						<MapView
+							initialRegion={{
+								latitude: 11.249999,
+								longitude: 125.0,
+								latitudeDelta: 0.0922,
+								longitudeDelta: 0.0421
+							}}
+							provider="google"
+							minZoomLevel={15}
+							zoomControlEnabled={true}
+							ref="maps"
+							style={{
+								height: 250,
+								width: '100%',
+								marginBottom: 10
+							}}>
+							{this.state.address && (
+								<Marker
+									coordinate={{
+										latitude: this.state.address.latitude,
+										longitude: this.state.address.longitude
+									}}
+								/>
+							)}
+						</MapView>
 					)}
 					<Dash
 						style={{
