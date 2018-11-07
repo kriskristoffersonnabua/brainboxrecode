@@ -24,7 +24,7 @@ import {
 	Dash
 } from '../../../reusables'
 import MapView, { Marker } from 'react-native-maps'
-// import RNGooglePlaces from 'react-native-google-places'
+import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
@@ -216,26 +216,26 @@ export default class TutorialBooking extends Component {
 	}
 
 	openSearchModal() {
-		// RNGooglePlaces.openPlacePickerModal({
-		// 	latitude: 11.241568,
-		// 	longitude: 125.001022,
-		// 	radius: 0.2
-		// })
-		// 	.then(place => {
-		// 		this.setState(
-		// 			{
-		// 				address: place
-		// 			},
-		// 			() => {
-		// 				const { latitude, longitude } = place
-		// 				this.refs.maps.animateToCoordinate(
-		// 					{ latitude, longitude },
-		// 					10
-		// 				)
-		// 			}
-		// 		)
-		// 	})
-		// 	.catch(error => console.log(error.message))
+		RNGooglePlaces.openPlacePickerModal({
+			latitude: 11.241568,
+			longitude: 125.001022,
+			radius: 0.2
+		})
+			.then(place => {
+				this.setState(
+					{
+						address: place
+					},
+					() => {
+						const { latitude, longitude } = place
+						this.refs.maps.animateToCoordinate(
+							{ latitude, longitude },
+							10
+						)
+					}
+				)
+			})
+			.catch(error => console.log(error.message))
 	}
 
 	render() {
