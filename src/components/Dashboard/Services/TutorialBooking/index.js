@@ -17,14 +17,14 @@ import { deviceWidth } from '../../../../../lib/device'
 import {
 	LocalImage,
 	String,
-	TextField,
+	Textfield,
 	RadioButton,
 	Button,
 	Subjects,
 	Dash
 } from '../../../reusables'
-import MapView, { Marker } from 'react-native-maps'
-import RNGooglePlaces from 'react-native-google-places'
+// import MapView, { Marker } from 'react-native-maps'
+// import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
@@ -216,26 +216,26 @@ export default class TutorialBooking extends Component {
 	}
 
 	openSearchModal() {
-		RNGooglePlaces.openPlacePickerModal({
-			latitude: 11.241568,
-			longitude: 125.001022,
-			radius: 0.2
-		})
-			.then(place => {
-				this.setState(
-					{
-						address: place
-					},
-					() => {
-						const { latitude, longitude } = place
-						this.refs.maps.animateToCoordinate(
-							{ latitude, longitude },
-							10
-						)
-					}
-				)
-			})
-			.catch(error => console.log(error.message))
+		// RNGooglePlaces.openPlacePickerModal({
+		// 	latitude: 11.241568,
+		// 	longitude: 125.001022,
+		// 	radius: 0.2
+		// })
+		// 	.then(place => {
+		// 		this.setState(
+		// 			{
+		// 				address: place
+		// 			},
+		// 			() => {
+		// 				const { latitude, longitude } = place
+		// 				this.refs.maps.animateToCoordinate(
+		// 					{ latitude, longitude },
+		// 					10
+		// 				)
+		// 			}
+		// 		)
+		// 	})
+		// 	.catch(error => console.log(error.message))
 	}
 
 	render() {
@@ -366,7 +366,7 @@ export default class TutorialBooking extends Component {
 									borderRadius: 5,
 									padding: 10
 								}}>
-								<TextField
+								<Textfield
 									onChangeText={value => {
 										this.setState({
 											newTuteeFirstname: value
@@ -375,7 +375,7 @@ export default class TutorialBooking extends Component {
 									placeholder="Firstname"
 									style={{ width: '100%' }}
 								/>
-								<TextField
+								<Textfield
 									onChangeText={value => {
 										this.setState({
 											newTuteeLastname: value
@@ -384,7 +384,7 @@ export default class TutorialBooking extends Component {
 									placeholder="Lastname"
 									style={{ width: '100%' }}
 								/>
-								<TextField
+								<Textfield
 									datepicker
 									focusCallback={({
 										newDate,
@@ -399,7 +399,7 @@ export default class TutorialBooking extends Component {
 									placeholder="Birthday"
 									style={{ width: '100%' }}
 								/>
-								<TextField
+								<Textfield
 									onChangeText={value => {
 										this.setState({ newTuteeSchool: value })
 									}}
@@ -493,10 +493,11 @@ export default class TutorialBooking extends Component {
 						text={'home-based Tutorial'}
 						onPress={() => this.setState({ centerBased: false })}
 					/>
-					{!this.state.centerBased && [
-						<TextField
+					{!this.state.centerBased && (
+						<Textfield
 							placeholder={'Address'}
 							onChangeText={() => {}}
+							key="search place"
 							style={{
 								width: '100%',
 								marginBottom: 10
@@ -510,33 +511,8 @@ export default class TutorialBooking extends Component {
 									this.state.address.address) ||
 								''
 							}
-						/>,
-						<MapView
-							initialRegion={{
-								latitude: 11.249999,
-								longitude: 125.0,
-								latitudeDelta: 0.0922,
-								longitudeDelta: 0.0421
-							}}
-							style={{
-								height: 250,
-								width: '100%',
-								marginBottom: 10
-							}}
-							provider="google"
-							minZoomLevel={15}
-							zoomControlEnabled={true}
-							ref="maps">
-							{this.state.address && (
-								<Marker
-									coordinate={{
-										latitude: this.state.address.latitude,
-										longitude: this.state.address.longitude
-									}}
-								/>
-							)}
-						</MapView>
-					]}
+						/>
+					)}
 					<Dash
 						style={{
 							width: deviceWidth * 0.95,
@@ -596,7 +572,7 @@ export default class TutorialBooking extends Component {
 								flexDirection: 'row',
 								marginBottom: 10
 							}}>
-							<TextField
+							<Textfield
 								datepicker
 								focusCallback={({
 									newDate: date,
@@ -616,7 +592,7 @@ export default class TutorialBooking extends Component {
 									flex: 3
 								}}
 							/>
-							<TextField
+							<Textfield
 								placeholder={'Time'}
 								style={{
 									flex: 2
@@ -636,7 +612,7 @@ export default class TutorialBooking extends Component {
 								}
 								value={this.state.ottTimeString}
 							/>
-							<TextField
+							<Textfield
 								placeholder={'Hours'}
 								keyboardType="numeric"
 								onChangeText={value => {
@@ -678,7 +654,7 @@ export default class TutorialBooking extends Component {
 							marginBottom: 10,
 							paddingLeft: 30
 						}}>
-						<TextField
+						<Textfield
 							placeholder={'Start Date'}
 							datepicker
 							focusCallback={({ newDate, newDateString }) =>
@@ -695,7 +671,7 @@ export default class TutorialBooking extends Component {
 							}}
 							value={this.state.owtStartDateString}
 						/>
-						<TextField
+						<Textfield
 							placeholder={'End Date'}
 							datepicker
 							focusCallback={({ newDate, newDateString }) =>
@@ -745,11 +721,13 @@ export default class TutorialBooking extends Component {
 			</ScrollView>
 		)
 	}
+
 	_addExistingTutee = index => {
 		let { tutees, existingTutees } = this.state
 		tutees.push(existingTutees[index])
 		this.setState({ tutees, existingTuteeModalVisible: false })
 	}
+
 	_addNewTutee = () => {
 		let {
 			tutees,
@@ -766,11 +744,13 @@ export default class TutorialBooking extends Component {
 		})
 		this.setState({ tutees, newTuteeModalVisible: false })
 	}
+
 	_popTutee = index => {
 		let tutees = this.state.tutees
 		tutees.pop(index)
 		this.setState({ tutees })
 	}
+
 	submitData = async () => {
 		const { tutorId } = this.props
 		if (!(this.state.tutees.length > 0)) {
@@ -802,7 +782,6 @@ export default class TutorialBooking extends Component {
 				subjects: this.state.subjects,
 				schedule: this.state.customDates
 			}
-
 			try {
 				// await this.props.createAppointmentAction(
 				// 	appointmentData,

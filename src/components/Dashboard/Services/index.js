@@ -34,7 +34,7 @@ export default class Main extends Component {
 		let component
 		switch (this.state.selected) {
 			case Service.OneOnOneTutorial:
-				if (this.state.selectedTutorId) {
+				if (!this.state.selectedTutorId) {
 					component = (
 						<TutorialBooking
 							cancelTutorSelection={this.cancelTutorSelection}

@@ -13,7 +13,6 @@
 		"react-native": "0.57.3",
 		"react-native-fbsdk": "^0.8.0",
 		"react-native-firebase": "^5.0.0",
-		"react-native-maps": "^0.22.0",
 		"react-native-modal-dropdown": "^0.6.2",
 		"react-native-tab-view": "^1.2.0",
 		"react-navigation": "^2.18.0"
