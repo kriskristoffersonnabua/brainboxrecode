@@ -13,6 +13,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,10 +35,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-			new FBSDKPackage(mCallbackManager),
-				new RNFirebasePackage(),
-					new RNFirebaseAuthPackage(),
-					  new RNFirebaseDatabasePackage()
+		  new RNGooglePlacesPackage(),
+		  new MapsPackage(),
+		  new FBSDKPackage(mCallbackManager),
+		  new RNFirebasePackage(),
+		  new RNFirebaseAuthPackage(),
+		  new RNFirebaseDatabasePackage()
       );
     }
 
