@@ -28,6 +28,14 @@ import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
+import {
+	Appointment,
+	LPR,
+	BookedSchedules
+} from '../../../../firebase/appointment'
+const { createAppointment } = Appointment
+const { createGeneratedLPR } = LPR
+const { createBookedSchedules } = BookedSchedules
 
 const Tutee = props => {
 	return (
@@ -127,28 +135,24 @@ export default class TutorialBooking extends Component {
 			ott: false,
 			owt: false,
 			omt: false,
-
 			// one time tutorial states
 			ottDate: null,
 			ottDateString: '',
 			ottTime: null,
 			ottTimeString: '',
 			ottHours: '',
-
 			// one week tutorial states
 			owtStartDate: null,
 			owtStartDateString: '',
 			owtEndDate: null,
 			owtEndDateString: '',
 			owtSchedule: null,
-
 			// one month tutorial states
 			omtStartDate: null,
 			omtStartDateString: '',
 			omtEndDate: null,
 			omtEndDateString: '',
 			omtSchedule: null,
-
 			//add new tutee modal
 			newTuteeModalVisible: false,
 			newTuteeFirstname: '',
@@ -156,13 +160,10 @@ export default class TutorialBooking extends Component {
 			newTuteeBirthday: null,
 			newTuteeBirthdayString: '',
 			newTuteeSchool: '',
-
 			//add existine tutee modal
 			existingTuteeModalVisible: false,
-
 			//tutees
 			existingTutees: [],
-
 			//data
 			tutees: [],
 			customDates: [],
@@ -181,6 +182,7 @@ export default class TutorialBooking extends Component {
 			}
 		}
 	}
+
 	addCustomDate = () => {
 		const {
 			ottDate,
@@ -206,6 +208,7 @@ export default class TutorialBooking extends Component {
 			ottHours: ''
 		})
 	}
+
 	popCustomDate = index => {
 		const { customDates } = this.state
 		customDates.splice(index, 1)
@@ -387,10 +390,7 @@ export default class TutorialBooking extends Component {
 								/>
 								<Textfield
 									datepicker
-									focusCallback={({
-										newDate,
-										newDateString
-									}) => {
+									callback={({ newDate, newDateString }) => {
 										this.setState({
 											newTuteeBirthday: newDate,
 											newTuteeBirthdayString: newDateString
@@ -602,7 +602,7 @@ export default class TutorialBooking extends Component {
 							}}>
 							<Textfield
 								datepicker
-								focusCallback={({
+								callback={({
 									newDate: date,
 									newDateString: dateString
 								}) => {
@@ -626,7 +626,7 @@ export default class TutorialBooking extends Component {
 									flex: 2
 								}}
 								timepicker
-								focusCallback={({
+								callback={({
 									newTime: time,
 									newTimeString: timeString
 								}) =>
@@ -685,7 +685,7 @@ export default class TutorialBooking extends Component {
 						<Textfield
 							placeholder={'Start Date'}
 							datepicker
-							focusCallback={({ newDate, newDateString }) =>
+							callback={({ newDate, newDateString }) =>
 								this.setState({
 									owtStartDate: newDate,
 									owtStartDateString: newDateString,
@@ -702,7 +702,7 @@ export default class TutorialBooking extends Component {
 						<Textfield
 							placeholder={'End Date'}
 							datepicker
-							focusCallback={({ newDate, newDateString }) =>
+							callback={({ newDate, newDateString }) =>
 								this.setState({
 									owtEndDate: newDate,
 									owtEndDateString: newDateString,
@@ -807,30 +807,20 @@ export default class TutorialBooking extends Component {
 				tutorId,
 				tutees: this.state.tutees,
 				address: this.state.address,
-				subjects: this.state.subjects,
-				schedule: this.state.customDates
+				subjects: this.state.subjects
 			}
 			try {
-				// await this.props.createAppointmentAction(
-				// 	appointmentData,
-				// 	bookedSchedules,
-				// 	generatedLPR,
-				// 	tutorId
-				// )
-				// Alert.alert('Tutorial has been booked.')
-				// if (!!this.props.user) {
-				// 	if ((this.props.user.accountType = AccountType.Client)) {
-				// 		this.props.getAllBookedAppointmentsFromClientId(
-				// 			this.props.user._id
-				// 		)
-				// 	} else if (
-				// 		(this.props.user.accountType = AccountType.Tutor)
-				// 	) {
-				// 		this.props.getAllBookedAppointmentsFromTutorId(
-				// 			this.props.user._id
-				// 		)
-				// 	}
-				// }
+				let key = createAppointment(appointmentData)
+				for (schedule of bookedSchedules) {
+					schedule['tutorId'] = appointmentData.tutorId
+					schedule['appointmentId'] = key
+				}
+				for (lpr of generatedLPR) {
+					lpr['tutorId'] = appointmentData.tutorId
+					lpr['appointmentId'] = key
+				}
+				createGeneratedLPR(generatedLPR)
+				createBookedSchedules(bookedSchedules)
 			} catch (exception) {
 				console.log(exception)
 			}
@@ -864,27 +854,17 @@ export default class TutorialBooking extends Component {
 			}
 
 			try {
-				await this.props.createAppointmentAction(
-					appointmentData,
-					bookedSchedules,
-					generatedLPR,
-					tutorId
-				)
-				if (!!this.props.user) {
-					if ((this.props.user.accountType = AccountType.Client)) {
-						this.props.getAllBookedAppointmentsFromClientId(
-							this.props.user._id
-						)
-					} else if (
-						(this.props.user.accountType = AccountType.Tutor)
-					) {
-						this.props.getAllBookedAppointmentsFromTutorId(
-							this.props.user._id
-						)
-					}
+				let key = createAppointment(appointmentData)
+				for (schedule of bookedSchedules) {
+					schedule['tutorId'] = appointmentData.tutorId
+					schedule['appointmentId'] = key
 				}
-				Alert.alert('Tutorial has been booked.')
-				this.props.cancelTutorSelection()
+				for (lpr of generatedLPR) {
+					lpr['tutorId'] = appointmentData.tutorId
+					lpr['appointmentId'] = key
+				}
+				createGeneratedLPR(generatedLPR)
+				createBookedSchedules(bookedSchedules)
 			} catch (exception) {
 				console.log(exception)
 			}
