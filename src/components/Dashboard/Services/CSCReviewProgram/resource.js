@@ -1,12 +1,34 @@
-import {connect} from 'react-redux';
-import Actions from '../../../../actions';
-import CSCPrograms from './CSCPrograms';
-const {getAllCSCPrograms} = Actions;
+import React from 'react'
+import CSCPrograms from './CSCPrograms'
+import { database } from '../../../../firebase/firebase'
+import { forIn, keys } from 'lodash'
 
-const mapStateToProps = state => {
-  return {
-    programs: state.ResourcesReducer.availablePrograms,
-  };
-};
+export default class CSCProgramResource extends React.Component {
+	state = {
+		programs: null
+	}
 
-export default connect(mapStateToProps, {getAllCSCPrograms})(CSCPrograms);
+	componentDidMount() {
+		database
+			.ref('service')
+			.orderByChild('serviceType')
+			.equalTo(1)
+			.on('value', snapshot => {
+				const programsobject = snapshot.val()
+				let programs = []
+				forIn(programsobject, (values, key) => {
+					programs.push({ serviceId: key, ...values })
+				})
+				this.setState({ programs })
+			})
+	}
+
+	render() {
+		return (
+			<CSCPrograms
+				back={this.props.back}
+				programs={this.state.programs}
+			/>
+		)
+	}
+}

@@ -4,9 +4,9 @@ import { View, StyleSheet } from 'react-native'
 import ServicesList from './ServicesList'
 import SearchTutor from './SearchTutor'
 import TutorialBooking from './TutorialBooking'
-// import CSCReviewProgram from './CSCReviewProgram'
-// import PSHSReviewProgram from './PSHSReviewProgram'
-// import CEEReviewProgram from './CEEReviewProgram'
+import CSCReviewProgram from './CSCReviewProgram'
+import PSHSReviewProgram from './PSHSReviewProgram'
+import CEEReviewProgram from './CEEReviewProgram'
 import { Service, AccountType } from '../../../../lib/constants'
 
 export default class Main extends Component {
@@ -34,7 +34,7 @@ export default class Main extends Component {
 		let component
 		switch (this.state.selected) {
 			case Service.OneOnOneTutorial:
-				if (!this.state.selectedTutorId) {
+				if (this.state.selectedTutorId) {
 					component = (
 						<TutorialBooking
 							cancelTutorSelection={this.cancelTutorSelection}
@@ -87,6 +87,7 @@ export default class Main extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		backgroundColor: 'white'
 	}
 })

@@ -16,7 +16,8 @@ export default class TabViewExample extends React.Component {
 		index: 0,
 		routes: [
 			{ key: 'first', title: 'Services' },
-			{ key: 'second', title: 'Tutors' }
+			{ key: 'second', title: 'Tutors' },
+			{ key: 'third', title: 'My Bookings' }
 		]
 	}
 
@@ -26,7 +27,8 @@ export default class TabViewExample extends React.Component {
 				navigationState={this.state}
 				renderScene={SceneMap({
 					first: Services,
-					second: TutorList
+					second: TutorList,
+					third: FirstRoute
 				})}
 				onIndexChange={index => this.setState({ index })}
 				initialLayout={{

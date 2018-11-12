@@ -807,7 +807,8 @@ export default class TutorialBooking extends Component {
 				tutorId,
 				tutees: this.state.tutees,
 				address: this.state.address,
-				subjects: this.state.subjects
+				subjects: this.state.subjects,
+				centerBased: this.state.centerBased
 			}
 			try {
 				let key = createAppointment(appointmentData)
