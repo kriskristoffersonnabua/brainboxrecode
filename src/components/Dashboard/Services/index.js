@@ -8,6 +8,7 @@ import CSCReviewProgram from './CSCReviewProgram'
 import PSHSReviewProgram from './PSHSReviewProgram'
 import CEEReviewProgram from './CEEReviewProgram'
 import { Service, AccountType } from '../../../../lib/constants'
+import RootComponentContext from '../../../context/RootComponentContext'
 
 export default class Main extends Component {
 	constructor(props) {
@@ -36,10 +37,19 @@ export default class Main extends Component {
 			case Service.OneOnOneTutorial:
 				if (this.state.selectedTutorId) {
 					component = (
-						<TutorialBooking
-							cancelTutorSelection={this.cancelTutorSelection}
-							tutorId={this.state.selectedTutorId}
-						/>
+						<RootComponentContext.Consumer>
+							{props => {
+								return (
+									<TutorialBooking
+										cancelTutorSelection={
+											this.cancelTutorSelection
+										}
+										{...props}
+										tutorId={this.state.selectedTutorId}
+									/>
+								)
+							}}
+						</RootComponentContext.Consumer>
 					)
 				} else {
 					component = (

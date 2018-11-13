@@ -110,7 +110,7 @@ const ProgramView = props => {
 			<BookReviewForm
 				showForm={props.showForm}
 				unShowBookForm={props.unShowBookForm}
-				programId={props.program._id}
+				program={props.program}
 			/>
 			<View style={styles.programBody}>
 				<String

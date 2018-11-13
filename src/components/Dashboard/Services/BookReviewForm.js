@@ -1,8 +1,10 @@
 import React from 'react'
 import { Modal, View, Text, StyleSheet, AsyncStorage } from 'react-native'
 import { String, Textfield, Button } from '../../reusables'
+import RootComponentContext from '../../../context/RootComponentContext'
+import { Appointment, Service } from '../../../firebase'
 
-export default class BookReviewForm extends React.Component {
+class BookReviewForm extends React.Component {
 	state = {
 		address: {
 			address:
@@ -15,21 +17,12 @@ export default class BookReviewForm extends React.Component {
 			placeID: '7Q3762R2+JCCP',
 			south: 11.240391419708498
 		},
-		program: this.props.programId,
 		//change this personal data to reviewee on submit form
 		firstname: '',
 		lastname: '',
 		address: '',
 		contact: ''
 		// payment: [],
-	}
-
-	static getDerivedStateFromProps(nextProps) {
-		if (!!nextProps.user) {
-			const { firstname, lastname, address, contact } = nextProps.user
-			return { firstname, lastname, address, contact }
-		}
-		return null
 	}
 
 	bookReview = () => {
@@ -40,17 +33,37 @@ export default class BookReviewForm extends React.Component {
 			contact,
 			...otherState
 		} = this.state
+		const {
+			loggedInUser: { uid },
+			program: { slots, serviceId, price = 0 }
+		} = this.props
 		let appointmentData = {
+			clientId: uid,
 			reviewee: {
 				firstname,
 				lastname,
 				address,
 				contact
 			},
+			serviceId,
+			price,
 			...otherState
 		}
-		console.log(appointmentData)
-		// this.props.createReviewAppointment(appointmentData)
+		if (slots > 0) {
+			let appointmentId = Appointment.createAppointment(appointmentData)
+			Service.updateService(appointmentData.serviceId, {
+				slots: slots - 1
+			})
+
+			//TODO: ADD_PAYMENT
+			this.props.unShowBookForm()
+			this.setState({
+				firstname: '',
+				lastname: '',
+				address: '',
+				contact: ''
+			})
+		}
 	}
 
 	render() {
@@ -157,3 +170,13 @@ const styles = StyleSheet.create({
 		padding: 10
 	}
 })
+
+export default otherProps => {
+	return (
+		<RootComponentContext.Consumer>
+			{props => {
+				return <BookReviewForm {...props} {...otherProps} />
+			}}
+		</RootComponentContext.Consumer>
+	)
+}

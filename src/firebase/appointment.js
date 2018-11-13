@@ -26,6 +26,13 @@ export class Appointment {
 	static deleteAppointment(appointmentId) {
 		return database.ref(`appointment/${appointmentId}`).remove()
 	}
+
+	static getAppointmentRefByClientId(clientId) {
+		return database
+			.ref(`appointment`)
+			.orderByChild('clientId')
+			.equalTo(clientId)
+	}
 }
 
 /* LPR

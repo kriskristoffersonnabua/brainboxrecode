@@ -9,5 +9,10 @@ import { Alert } from 'react-native'
  * schedule: Array
 */
 export default class Service {
-	static updateService(serviceId, dataToUpdate) {}
+	static updateService(serviceId, dataToUpdate) {
+		database
+			.ref('service')
+			.child(serviceId)
+			.update(dataToUpdate)
+	}
 }
