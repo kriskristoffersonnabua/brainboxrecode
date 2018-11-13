@@ -57,9 +57,19 @@ export class LPR {
 		})
 	}
 
-	static updateGeneratedLPR() {}
+	static updateGeneratedLPR(lprId, datatoupdate) {
+		database
+			.ref('lpr')
+			.child(lprId)
+			.update(datatoupdate)
+	}
 
-	static deleteGeneratedLPR() {}
+	static deleteGeneratedLPR(lprId) {
+		database
+			.ref('lpr')
+			.child(lprId)
+			.remove()
+	}
 }
 
 /* BookedSchedules
@@ -77,7 +87,17 @@ export class BookedSchedules {
 		})
 	}
 
-	static updateBookedSchedules() {}
+	static updateBookedSchedules(bookedscheduleId, datatoupdate) {
+		database
+			.ref('bookedschedules')
+			.child(bookedscheduleId)
+			.update(datatoupdate)
+	}
 
-	static deleteBookedSchedules() {}
+	static deleteBookedSchedules(bookedscheduleId) {
+		database
+			.ref('bookedschedules')
+			.child(bookedscheduleId)
+			.remove()
+	}
 }
