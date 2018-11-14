@@ -4,10 +4,11 @@ import { View, StyleSheet } from 'react-native'
 import ServicesList from './ServicesList'
 import SearchTutor from './SearchTutor'
 import TutorialBooking from './TutorialBooking'
-// import CSCReviewProgram from './CSCReviewProgram'
-// import PSHSReviewProgram from './PSHSReviewProgram'
-// import CEEReviewProgram from './CEEReviewProgram'
+import CSCReviewProgram from './CSCReviewProgram'
+import PSHSReviewProgram from './PSHSReviewProgram'
+import CEEReviewProgram from './CEEReviewProgram'
 import { Service, AccountType } from '../../../../lib/constants'
+import RootComponentContext from '../../../context/RootComponentContext'
 
 export default class Main extends Component {
 	constructor(props) {
@@ -34,12 +35,21 @@ export default class Main extends Component {
 		let component
 		switch (this.state.selected) {
 			case Service.OneOnOneTutorial:
-				if (!this.state.selectedTutorId) {
+				if (this.state.selectedTutorId) {
 					component = (
-						<TutorialBooking
-							cancelTutorSelection={this.cancelTutorSelection}
-							tutorId={this.state.selectedTutorId}
-						/>
+						<RootComponentContext.Consumer>
+							{props => {
+								return (
+									<TutorialBooking
+										cancelTutorSelection={
+											this.cancelTutorSelection
+										}
+										{...props}
+										tutorId={this.state.selectedTutorId}
+									/>
+								)
+							}}
+						</RootComponentContext.Consumer>
 					)
 				} else {
 					component = (
@@ -87,6 +97,7 @@ export default class Main extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		backgroundColor: 'white'
 	}
 })

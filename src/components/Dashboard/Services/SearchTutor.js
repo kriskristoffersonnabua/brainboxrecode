@@ -10,8 +10,10 @@ import {
 } from 'react-native'
 import { deviceWidth } from '../../../../lib/device'
 import { Dash, Textfield, Button, TutorCard, LocalImage } from '../../reusables'
+import TutorListContext from '../../../context/TutorListContext'
+import { filter } from 'lodash'
 
-export default class SearchTutor extends Component {
+class SearchTutor extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -21,6 +23,7 @@ export default class SearchTutor extends Component {
 			dateString: ''
 		}
 	}
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -50,64 +53,19 @@ export default class SearchTutor extends Component {
 						</Text>
 					</View>
 					<Dash
-						style={{ width: 310, height: 2 }}
-						dashLength={5}
-						dashGap={5}
-						dashColor={'#979797'}
+						style={{
+							width: 310,
+							height: 2,
+							marginTop: 0,
+							marginBottom: 10
+						}}
 					/>
 					<View style={{ flex: 1 }}>
 						<Textfield
 							style={{ marginBottom: -5, fontSize: 10 }}
 							width={290}
 							placeholder="Tutor Name"
-							onChangeText={value => {
-								this.setState({ tutorName: value })
-							}}
-						/>
-						<View style={{ flexDirection: 'row' }}>
-							<Textfield
-								width={150}
-								placeholder="Subject"
-								onChangeText={value => {
-									this.setState({ subject: value })
-								}}
-							/>
-							<Textfield
-								width={67}
-								timepicker
-								focusCallback={({ newTime, newTimeString }) => {
-									this.setState({
-										time: newTime,
-										timeString: newTimeString
-									})
-								}}
-								placeholder="Time"
-								onChangeText={value => {
-									this.setState({ time })
-								}}
-								value={this.state.timeString}
-							/>
-							<Textfield
-								width={67}
-								datepicker
-								focusCallback={({ newDate, newDateString }) => {
-									this.setState({
-										date: newDate,
-										dateString: newDateString
-									})
-								}}
-								placeholder="Date"
-								onChangeText={() => {}}
-								value={this.state.dateString}
-							/>
-						</View>
-						<Button
-							style={{ alignSelf: 'center' }}
-							type="confirm"
-							text="Search"
-							width={95}
-							height={40}
-							onPress={this.searchTutor}
+							onChangeText={value => this.searchTutor(value)}
 						/>
 					</View>
 				</View>
@@ -119,8 +77,8 @@ export default class SearchTutor extends Component {
 						justifyContent: 'flex-start',
 						alignItems: 'center'
 					}}>
-					{this.props.searchedTutors != undefined &&
-					this.props.searchedTutors.length > 0 ? (
+					{this.state.searchedTutors != undefined &&
+					this.state.searchedTutors.length > 0 ? (
 						<Text
 							style={{
 								margin: 10
@@ -129,43 +87,61 @@ export default class SearchTutor extends Component {
 						</Text>
 					) : null}
 					<ScrollView style={{ width: '100%', paddingTop: 10 }}>
-						{this.props.searchedTutors != undefined &&
-							this.props.searchedTutors.map((tutor, index) => {
-								console.log(tutor)
+						{(this.state.searchedTutors != null &&
+							this.state.searchedTutors.map((tutor, index) => {
 								return (
 									<TutorCard
-										key={index}
+										key={tutor.uid}
 										tutorName={
 											(!!tutor &&
-												`${tutor.firstname} ${
-													tutor.lastname
+												`${tutor.first_name} ${
+													tutor.last_name
 												}`) ||
 											'tutor'
 										}
 										available
 										onPress={() =>
-											this.props.setTutorId(tutor._id)
+											this.props.setTutorId(tutor.uid)
 										}
 									/>
 								)
-							})}
+							})) ||
+							(!!this.props.tutors &&
+								this.props.tutors.map((tutor, index) => {
+									return (
+										<TutorCard
+											key={tutor.uid}
+											tutorName={
+												(!!tutor &&
+													`${tutor.first_name} ${
+														tutor.last_name
+													}`) ||
+												'tutor'
+											}
+											available
+											onPress={() =>
+												this.props.setTutorId(tutor.uid)
+											}
+										/>
+									)
+								}))}
 					</ScrollView>
 				</View>
 			</View>
 		)
 	}
 
-	searchTutor = () => {
-		Keyboard.dismiss()
-		const { tutorName, subject, date } = this.state
-		if (tutorName !== '' || subject !== '') {
-			let searchString = `${tutorName} ${subject}`
-			if (date) {
-				this.props.searchTutorByDate(date)
-			} else {
-				this.props.searchTutor(searchString)
-			}
-		}
+	searchTutor = value => {
+		if (!!value.length) {
+			let searchedTutors = filter(this.props.tutors, tutor => {
+				const { first_name, last_name } = tutor
+				return (
+					first_name.toLowerCase().includes(value.toLowerCase()) ||
+					last_name.toLowerCase().includes(value.toLowerCase())
+				)
+			})
+			this.setState({ searchedTutors })
+		} else this.setState({ searchedTutors: null })
 	}
 }
 
@@ -202,3 +178,13 @@ const styles = StyleSheet.create({
 		padding: 10
 	}
 })
+
+export default otherProps => {
+	return (
+		<TutorListContext.Consumer>
+			{props => {
+				return <SearchTutor {...props} {...otherProps} />
+			}}
+		</TutorListContext.Consumer>
+	)
+}

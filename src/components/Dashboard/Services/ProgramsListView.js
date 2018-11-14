@@ -1,46 +1,46 @@
-import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {windowDimensions} from '../../../lib/device';
-import ProgramCard from './ProgramCard';
+import React from 'react'
+import { View, StyleSheet, ScrollView } from 'react-native'
+import { deviceWidth } from '../../../../lib/device'
+import ProgramCard from './ProgramCard'
 
 class ProgramListView extends React.Component {
-  state = {
-    programs: [],
-  };
+	state = {
+		programs: []
+	}
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!!nextProps.programs) {
-      return {
-        programs: nextProps.programs,
-      };
-    }
-    return null;
-  }
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (!!nextProps.programs) {
+			return {
+				programs: nextProps.programs
+			}
+		}
+		return null
+	}
 
-  render() {
-    const {programs} = this.state;
-    return (
-      <ScrollView>
-        {programs.map((program, index) => {
-          return (
-            <ProgramCard
-              key={index}
-              selectProgram={this.props.selectProgram}
-              program={program}
-            />
-          );
-        })}
-      </ScrollView>
-    );
-  }
+	render() {
+		const { programs } = this.state
+		return (
+			<ScrollView>
+				{programs.map((program, index) => {
+					return (
+						<ProgramCard
+							key={index}
+							selectProgram={this.props.selectProgram}
+							program={program}
+						/>
+					)
+				})}
+			</ScrollView>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    width: windowDimensions.width,
-    height: 'auto',
-    justifyContent: 'center',
-  },
-});
+	scrollContainer: {
+		width: deviceWidth,
+		height: 'auto',
+		justifyContent: 'center'
+	}
+})
 
-export default ProgramListView;
+export default ProgramListView

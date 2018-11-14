@@ -24,7 +24,7 @@ const TutorListProvider = class extends React.Component {
 				})
 				this.setState({ tutors })
 			})
-			.catch(exception => console.log(exception))
+			.catch(exception => console.warn(exception))
 	}
 
 	render() {

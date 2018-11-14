@@ -43,7 +43,7 @@ export const StyledText = glamorous.text(
 			fontFamily: theme.fonts.regular,
 			fontSize: theme.fonts.label,
 			textAlign: 'center',
-			color: theme.colors.snow
+			color: theme.colors.nightrider
 		}
 	},
 	props => {
