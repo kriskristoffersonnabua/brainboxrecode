@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native'
 import { deviceWidth } from '../../../../lib/device'
 import TutorListContext from '../../../context/TutorListContext'
-import { TutorCard } from '../../reusables'
+import { TutorCard, LoadingPage } from '../../reusables'
 import { filter, conform } from 'lodash'
-// import TutorAccountSettings from '../../AccountSettings/TutorAccountSettings';
+import { User } from '../../../firebase'
+import TutorProfileView from '../../AccountSettings/AccountSettingsView'
 
 class TutorList extends Component {
 	state = {
-		tutorId: null
+		tutorprofile: null,
+		loading: false
 	}
 
 	static getDerivedStateFromProps(nextProps) {
-		console.log(nextProps)
 		return nextProps
 	}
 
@@ -20,13 +21,37 @@ class TutorList extends Component {
 
 	render() {
 		let component
-		if (this.state.tutorId) {
-			// component = (
-			// 	<TutorAccountSettings
-			// 		back={this.backToAllTutors}
-			// 		tutorId={this.state.tutorId}
-			// 	/>
-			// )
+		if (this.state.loading) {
+			return <LoadingPage text={'Getting Tutor Information'} />
+		}
+		if (this.state.tutorprofile) {
+			component = (
+				<View
+					style={{
+						flex: 1,
+						width: deviceWidth
+					}}>
+					<View
+						style={{
+							width: deviceWidth,
+							height: 30,
+							padding: 5,
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}>
+						<TouchableOpacity onPress={this.clearSelectedTutor}>
+							<Text>Back</Text>
+						</TouchableOpacity>
+						<TouchableOpacity>
+							<Text>Book One-On-One Tutorial</Text>
+						</TouchableOpacity>
+					</View>
+					<TutorProfileView
+						profile={this.state.tutorprofile}
+						viewOnly
+					/>
+				</View>
+			)
 		} else {
 			component =
 				!!this.props.tutors &&
@@ -40,6 +65,7 @@ class TutorList extends Component {
 									tutor.last_name
 								}`}
 								available
+								onPress={() => this.fetchUser(tutor.uid)}
 							/>
 						)
 					} else null
@@ -62,9 +88,19 @@ class TutorList extends Component {
 		)
 	}
 
-	showTutorInformation = tutorId => {}
+	fetchUser = uid => {
+		this.setState({ loading: true })
+		const userFetchPromise = User.getUserProfile(uid)
+		userFetchPromise.then(value => {
+			setTimeout(() => {
+				this.setState({ tutorprofile: value, loading: false })
+			}, 100)
+		})
+	}
 
-	clearSelectedTutor = () => {}
+	clearSelectedTutor = () => {
+		this.setState({ tutorprofile: null })
+	}
 }
 
 export default props => {
