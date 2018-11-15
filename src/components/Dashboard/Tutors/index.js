@@ -6,11 +6,14 @@ import { TutorCard, LoadingPage } from '../../reusables'
 import { filter, conform } from 'lodash'
 import { User } from '../../../firebase'
 import TutorProfileView from '../../AccountSettings/AccountSettingsView'
+import TutorialBooking from '../Services/TutorialBooking'
 
 class TutorList extends Component {
 	state = {
 		tutorprofile: null,
-		loading: false
+		loading: false,
+		tutorId: null,
+		showForm: false
 	}
 
 	static getDerivedStateFromProps(nextProps) {
@@ -20,38 +23,48 @@ class TutorList extends Component {
 	backToAllTutors = () => {}
 
 	render() {
+		const { showForm } = this.state
 		let component
 		if (this.state.loading) {
 			return <LoadingPage text={'Getting Tutor Information'} />
 		}
 		if (this.state.tutorprofile) {
-			component = (
-				<View
-					style={{
-						flex: 1,
-						width: deviceWidth
-					}}>
+			if (showForm) {
+				component = (
+					<TutorialBooking
+						cancelTutorSelection={this.unshowForm}
+						tutorId={this.state.tutorId}
+					/>
+				)
+			} else {
+				component = (
 					<View
 						style={{
-							width: deviceWidth,
-							height: 30,
-							padding: 5,
-							flexDirection: 'row',
-							justifyContent: 'space-between'
+							flex: 1,
+							width: deviceWidth
 						}}>
-						<TouchableOpacity onPress={this.clearSelectedTutor}>
-							<Text>Back</Text>
-						</TouchableOpacity>
-						<TouchableOpacity>
-							<Text>Book One-On-One Tutorial</Text>
-						</TouchableOpacity>
+						<View
+							style={{
+								width: deviceWidth,
+								height: 30,
+								padding: 5,
+								flexDirection: 'row',
+								justifyContent: 'space-between'
+							}}>
+							<TouchableOpacity onPress={this.clearSelectedTutor}>
+								<Text>Back</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={this.showForm}>
+								<Text>Book One-On-One Tutorial</Text>
+							</TouchableOpacity>
+						</View>
+						<TutorProfileView
+							profile={this.state.tutorprofile}
+							viewOnly
+						/>
 					</View>
-					<TutorProfileView
-						profile={this.state.tutorprofile}
-						viewOnly
-					/>
-				</View>
-			)
+				)
+			}
 		} else {
 			component =
 				!!this.props.tutors &&
@@ -93,14 +106,22 @@ class TutorList extends Component {
 		const userFetchPromise = User.getUserProfile(uid)
 		userFetchPromise.then(value => {
 			setTimeout(() => {
-				this.setState({ tutorprofile: value, loading: false })
+				this.setState({
+					tutorprofile: value,
+					loading: false,
+					tutorId: uid
+				})
 			}, 100)
 		})
 	}
 
 	clearSelectedTutor = () => {
-		this.setState({ tutorprofile: null })
+		this.setState({ tutorprofile: null, tutorId: null })
 	}
+
+	showForm = () => this.setState({ showForm: true })
+
+	unshowForm = () => this.setState({ showForm: false })
 }
 
 export default props => {

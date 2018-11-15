@@ -28,6 +28,7 @@ import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
+import RootComponentContext from '../../../../context/RootComponentContext'
 import {
 	Appointment,
 	LPR,
@@ -125,7 +126,7 @@ const AddButtonIcon = props => {
 	)
 }
 
-export default class TutorialBooking extends Component {
+class TutorialBooking extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -808,7 +809,8 @@ export default class TutorialBooking extends Component {
 				tutees: this.state.tutees,
 				address: this.state.address,
 				subjects: this.state.subjects,
-				centerBased: this.state.centerBased
+				centerBased: this.state.centerBased,
+				clientId: this.props.loggedInUser.uid
 			}
 			try {
 				let key = createAppointment(appointmentData)
@@ -851,7 +853,9 @@ export default class TutorialBooking extends Component {
 				tutorId,
 				tutees: this.state.tutees,
 				address: this.state.address,
-				subjects: this.state.subjects
+				subjects: this.state.subjects,
+				centerBased: this.state.centerBased,
+				clientId: this.props.loggedInUser.uid
 			}
 
 			try {
@@ -900,3 +904,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end'
 	}
 })
+
+export default ownprops => {
+	return (
+		<RootComponentContext.Consumer>
+			{props => <TutorialBooking {...ownprops} {...props} />}
+		</RootComponentContext.Consumer>
+	)
+}
