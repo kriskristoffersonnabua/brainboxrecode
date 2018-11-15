@@ -14,10 +14,7 @@ export default class Main extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			selected: null,
-
-			//one-on-one tutorial states
-			selectedTutorId: false
+			selected: null
 		}
 	}
 
@@ -27,38 +24,11 @@ export default class Main extends Component {
 		})
 	}
 
-	setTutorId = tutorId => this.setState({ selectedTutorId: tutorId })
-
-	cancelTutorSelection = () => this.setState({ selectedTutorId: false })
-
 	render() {
 		let component
 		switch (this.state.selected) {
 			case Service.OneOnOneTutorial:
-				if (this.state.selectedTutorId) {
-					component = (
-						<RootComponentContext.Consumer>
-							{props => {
-								return (
-									<TutorialBooking
-										cancelTutorSelection={
-											this.cancelTutorSelection
-										}
-										{...props}
-										tutorId={this.state.selectedTutorId}
-									/>
-								)
-							}}
-						</RootComponentContext.Consumer>
-					)
-				} else {
-					component = (
-						<SearchTutor
-							setTutorId={this.setTutorId}
-							back={this.back}
-						/>
-					)
-				}
+				component = <SearchTutor back={this.back} />
 				break
 			case Service.CSCExamReview:
 				component = <CSCReviewProgram back={this.back} />

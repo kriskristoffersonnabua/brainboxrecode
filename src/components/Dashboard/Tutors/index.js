@@ -26,7 +26,7 @@ class TutorList extends Component {
 		const { showForm } = this.state
 		let component
 		if (this.state.loading) {
-			return <LoadingPage text={'Getting Tutor Information'} />
+			return <LoadingPage text={'Getting tutor information ...'} />
 		}
 		if (this.state.tutorprofile) {
 			if (showForm) {

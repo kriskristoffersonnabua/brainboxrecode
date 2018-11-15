@@ -9,9 +9,20 @@ import {
 	Keyboard
 } from 'react-native'
 import { deviceWidth } from '../../../../lib/device'
-import { Dash, Textfield, Button, TutorCard, LocalImage } from '../../reusables'
+import {
+	Dash,
+	Textfield,
+	Button,
+	TutorCard,
+	LocalImage,
+	LoadingPage
+} from '../../reusables'
 import TutorListContext from '../../../context/TutorListContext'
 import { filter } from 'lodash'
+import { User } from '../../../firebase'
+import TutorialBooking from './TutorialBooking'
+import RootComponentContext from '../../../context/RootComponentContext'
+import TutorProfileView from '../../AccountSettings/AccountSettingsView'
 
 class SearchTutor extends Component {
 	constructor(props) {
@@ -20,113 +31,184 @@ class SearchTutor extends Component {
 			tutorName: '',
 			subject: '',
 			timeString: '',
-			dateString: ''
+			dateString: '',
+			tutorprofile: null,
+			tutorId: '',
+			loading: false,
+			showForm: false
 		}
 	}
 
+	fetchUser = uid => {
+		this.setState({ loading: true })
+		const userFetchPromise = User.getUserProfile(uid)
+		userFetchPromise.then(value => {
+			setTimeout(() => {
+				this.setState({
+					tutorprofile: value,
+					loading: false,
+					tutorId: uid
+				})
+			}, 100)
+		})
+	}
+
+	unselectTutor = () => this.setState({ tutorprofile: null, tutorId: null })
+
+	showForm = () => this.setState({ showForm: true })
+
+	unshowForm = () => this.setState({ showForm: false })
+
 	render() {
+		const { tutorprofile, tutorId } = this.state
+
+		if (this.state.loading) {
+			return <LoadingPage text={'Getting tutor information ...'} />
+		}
+
 		return (
 			<View style={styles.container}>
-				<View style={styles.backButtonContainer}>
-					<TouchableOpacity
-						onPress={this.props.back}
-						style={styles.backButton}>
-						<LocalImage
-							source={require('../../../../assets/images/icons/backButton.png')}
-							resize
-							newWidth={15}
-							newHeight={15}
-						/>
-						<Text>BACK</Text>
-					</TouchableOpacity>
-				</View>
-				<View elevation={2} style={styles.searchSection}>
-					<View style={styles.searchFieldHeader}>
-						<Text
-							style={{
-								fontSize: 12,
-								fontWeight: 'bold',
-								color: '#2b2b2b',
-								fontFamily: 'RobotoMono'
-							}}>
-							Search Available Tutor:
-						</Text>
+				{!!!this.state.showForm ? (
+					<View style={styles.backButtonContainer}>
+						{!!!this.state.tutorprofile ? (
+							<TouchableOpacity
+								onPress={this.props.back}
+								style={styles.backButton}>
+								<LocalImage
+									source={require('../../../../assets/images/icons/backButton.png')}
+									resize
+									newWidth={15}
+									newHeight={15}
+								/>
+								<Text>Services</Text>
+							</TouchableOpacity>
+						) : null}
+						{!!this.state.tutorprofile ? (
+							<TouchableOpacity onPress={this.unselectTutor}>
+								<Text>Back To Tutor List</Text>
+							</TouchableOpacity>
+						) : null}
+						{!!!this.state.showForm && !!this.state.tutorprofile ? (
+							<TouchableOpacity onPress={this.showForm}>
+								<Text>Show Form</Text>
+							</TouchableOpacity>
+						) : null}
 					</View>
-					<Dash
-						style={{
-							width: 310,
-							height: 2,
-							marginTop: 0,
-							marginBottom: 10
+				) : null}
+				{!!this.state.showForm ? (
+					<RootComponentContext.Consumer>
+						{props => {
+							return (
+								<TutorialBooking
+									cancelTutorSelection={this.unshowForm}
+									{...props}
+									tutorId={this.state.tutorId}
+								/>
+							)
 						}}
+					</RootComponentContext.Consumer>
+				) : null}
+				{!!this.state.tutorprofile && !!!this.state.showForm ? (
+					<TutorProfileView
+						profile={this.state.tutorprofile}
+						viewOnly
 					/>
-					<View style={{ flex: 1 }}>
-						<Textfield
-							style={{ marginBottom: -5, fontSize: 10 }}
-							width={290}
-							placeholder="Tutor Name"
-							onChangeText={value => this.searchTutor(value)}
-						/>
-					</View>
-				</View>
-				<View
-					style={{
-						paddingRight: 20,
-						paddingLeft: 20,
-						flex: 1,
-						justifyContent: 'flex-start',
-						alignItems: 'center'
-					}}>
-					{this.state.searchedTutors != undefined &&
-					this.state.searchedTutors.length > 0 ? (
-						<Text
+				) : null}
+				{!!!this.state.tutorprofile ? (
+					<View elevation={2} style={styles.searchSection}>
+						<View style={styles.searchFieldHeader}>
+							<Text
+								style={{
+									fontSize: 12,
+									fontWeight: 'bold',
+									color: '#2b2b2b',
+									fontFamily: 'RobotoMono'
+								}}>
+								Search Available Tutor:
+							</Text>
+						</View>
+						<Dash
 							style={{
-								margin: 10
-							}}>
-							Results:
-						</Text>
-					) : null}
-					<ScrollView style={{ width: '100%', paddingTop: 10 }}>
-						{(this.state.searchedTutors != null &&
-							this.state.searchedTutors.map((tutor, index) => {
-								return (
-									<TutorCard
-										key={tutor.uid}
-										tutorName={
-											(!!tutor &&
-												`${tutor.first_name} ${
-													tutor.last_name
-												}`) ||
-											'tutor'
-										}
-										available
-										onPress={() =>
-											this.props.setTutorId(tutor.uid)
-										}
-									/>
-								)
-							})) ||
-							(!!this.props.tutors &&
-								this.props.tutors.map((tutor, index) => {
-									return (
-										<TutorCard
-											key={tutor.uid}
-											tutorName={
-												(!!tutor &&
-													`${tutor.first_name} ${
-														tutor.last_name
-													}`) ||
-												'tutor'
-											}
-											available
-											onPress={() =>
-												this.props.setTutorId(tutor.uid)
-											}
-										/>
-									)
-								}))}
-					</ScrollView>
-				</View>
+								width: 310,
+								height: 2,
+								marginTop: 0,
+								marginBottom: 10
+							}}
+						/>
+						<View style={{ flex: 1 }}>
+							<Textfield
+								style={{ marginBottom: -5, fontSize: 10 }}
+								width={290}
+								placeholder="Tutor Name"
+								onChangeText={value => this.searchTutor(value)}
+							/>
+						</View>
+					</View>
+				) : null}
+				{!!!this.state.tutorprofile ? (
+					<View
+						style={{
+							paddingRight: 20,
+							paddingLeft: 20,
+							flex: 1,
+							justifyContent: 'flex-start',
+							alignItems: 'center'
+						}}>
+						{this.state.searchedTutors != undefined &&
+						this.state.searchedTutors.length > 0 ? (
+							<Text
+								style={{
+									margin: 10
+								}}>
+								Results:
+							</Text>
+						) : null}
+						<ScrollView style={{ width: '100%', paddingTop: 10 }}>
+							{(this.state.searchedTutors != null &&
+								this.state.searchedTutors.map(
+									(tutor, index) => {
+										return (
+											<TutorCard
+												key={tutor.uid}
+												tutorName={
+													(!!tutor &&
+														`${tutor.first_name} ${
+															tutor.last_name
+														}`) ||
+													'tutor'
+												}
+												available
+												onPress={() =>
+													this.props.setTutorId(
+														tutor.uid
+													)
+												}
+											/>
+										)
+									}
+								)) ||
+								(!!this.props.tutors &&
+									this.props.tutors.map((tutor, index) => {
+										return (
+											<TutorCard
+												key={tutor.uid}
+												tutorName={
+													(!!tutor &&
+														`${tutor.first_name} ${
+															tutor.last_name
+														}`) ||
+													'tutor'
+												}
+												available
+												onPress={() =>
+													this.fetchUser(tutor.uid)
+												}
+											/>
+										)
+									}))}
+						</ScrollView>
+					</View>
+				) : null}
 			</View>
 		)
 	}
@@ -155,7 +237,10 @@ const styles = StyleSheet.create({
 	},
 	backButtonContainer: {
 		width: '100%',
-		height: 25
+		height: 25,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center'
 	},
 	backButton: {
 		flexDirection: 'row',
