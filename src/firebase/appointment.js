@@ -71,33 +71,3 @@ export class LPR {
 			.remove()
 	}
 }
-
-/* BookedSchedules
- * date: Number(milliseconds)
- * tutor: tutorId
- * time_start: Number
- * duration: Number(milliseconds)
- * active: Boolean
- * appointmentId: ID
-*/
-export class BookedSchedules {
-	static createBookedSchedules(bookedSchedules) {
-		bookedSchedules.map(schedule => {
-			database.ref('bookedschedules').push(schedule)
-		})
-	}
-
-	static updateBookedSchedules(bookedscheduleId, datatoupdate) {
-		database
-			.ref('bookedschedules')
-			.child(bookedscheduleId)
-			.update(datatoupdate)
-	}
-
-	static deleteBookedSchedules(bookedscheduleId) {
-		database
-			.ref('bookedschedules')
-			.child(bookedscheduleId)
-			.remove()
-	}
-}

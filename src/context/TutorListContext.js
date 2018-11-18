@@ -1,4 +1,5 @@
 import React from 'react'
+import { Alert } from 'react-native'
 import { User } from '../firebase'
 import { database } from '../firebase/firebase'
 import { forIn, keys } from 'lodash'
@@ -24,7 +25,9 @@ const TutorListProvider = class extends React.Component {
 				})
 				this.setState({ tutors })
 			})
-			.catch(exception => console.warn(exception))
+			.catch(exception => {
+				Alert.alert('Something went wrong.')
+			})
 	}
 
 	render() {
