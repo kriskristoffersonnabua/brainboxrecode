@@ -728,9 +728,13 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{
+									paddingLeft: 2,
+									paddingRight: 2
+								}}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										0,
 										newTime,
@@ -743,9 +747,13 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{
+									paddingLeft: 2,
+									paddingRight: 2
+								}}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										1,
 										newTime,
@@ -758,9 +766,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										2,
 										newTime,
@@ -773,9 +782,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										3,
 										newTime,
@@ -788,9 +798,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										4,
 										newTime,
@@ -803,9 +814,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										5,
 										newTime,
@@ -818,9 +830,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._morningTimeHandler(
 										6,
 										newTime,
@@ -835,6 +848,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(0, value)
@@ -844,6 +858,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(1, value)
@@ -853,6 +868,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(2, value)
@@ -862,6 +878,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(3, value)
@@ -871,6 +888,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(4, value)
@@ -880,6 +898,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(5, value)
@@ -889,6 +908,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._morningHoursHandler(6, value)
@@ -912,9 +932,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										0,
 										newTime,
@@ -927,9 +948,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										1,
 										newTime,
@@ -942,9 +964,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										2,
 										newTime,
@@ -957,9 +980,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										3,
 										newTime,
@@ -972,9 +996,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										4,
 										newTime,
@@ -987,9 +1012,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								timepicker
 								format24Hour
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										5,
 										newTime,
@@ -1002,9 +1028,10 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Time'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								format24Hour
 								timepicker
-								focusCallback={({ newTime, newTimeString }) => {
+								callback={({ newTime, newTimeString }) => {
 									this._afternoonTimeHandler(
 										6,
 										newTime,
@@ -1019,6 +1046,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(0, value)
@@ -1028,6 +1056,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(1, value)
@@ -1037,6 +1066,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(2, value)
@@ -1046,6 +1076,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(3, value)
@@ -1055,6 +1086,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(4, value)
@@ -1064,6 +1096,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(5, value)
@@ -1073,6 +1106,7 @@ class Scheduler extends Component {
 								fontSize={10}
 								placeholder={'Hours'}
 								width={40}
+								style={{ paddingLeft: 2, paddingRight: 2 }}
 								keyboardType="numeric"
 								onChangeText={value => {
 									this._afternoonHoursHandler(6, value)

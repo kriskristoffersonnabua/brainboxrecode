@@ -28,14 +28,12 @@ import RNGooglePlaces from 'react-native-google-places'
 import Scheduler from './Scheduler'
 import { AccountType } from '../../../../../lib/constants'
 import { getDates, generateBookedSchedules, generateLPR } from './controller'
-import {
-	Appointment,
-	LPR,
-	BookedSchedules
-} from '../../../../firebase/appointment'
+import RootComponentContext from '../../../../context/RootComponentContext'
+import { Appointment, LPR } from '../../../../firebase/appointment'
+import { database } from '../../../../firebase/firebase'
+import { forIn, filter } from 'lodash'
 const { createAppointment } = Appointment
 const { createGeneratedLPR } = LPR
-const { createBookedSchedules } = BookedSchedules
 
 const Tutee = props => {
 	return (
@@ -125,7 +123,7 @@ const AddButtonIcon = props => {
 	)
 }
 
-export default class TutorialBooking extends Component {
+class TutorialBooking extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -163,7 +161,12 @@ export default class TutorialBooking extends Component {
 			//add existine tutee modal
 			existingTuteeModalVisible: false,
 			//tutees
-			existingTutees: [],
+			existingTutees: [
+				{
+					firstname: 'April Shayne',
+					lastname: 'Cadiz'
+				}
+			],
 			//data
 			tutees: [],
 			customDates: [],
@@ -216,7 +219,27 @@ export default class TutorialBooking extends Component {
 	}
 
 	componentDidMount() {
-		// this.props.getUserInformation()
+		// fetch all bookedschedules of this tutor
+		if (!!this.props.tutorId) {
+			database
+				.ref('lpr')
+				.orderByChild('tutorId')
+				.equalTo(this.props.tutorId)
+				.on('value', snapshot => {
+					let data = snapshot.val()
+					let tutorialSchedules = []
+					forIn(data, (values, key) => {
+						tutorialSchedules.push({
+							lprid: key,
+							...values
+						})
+					})
+					tutorialSchedules = filter(tutorialSchedules, data => {
+						return !data.tutorialCompleted
+					})
+					this.setState({ tutorialSchedules })
+				})
+		}
 	}
 
 	openSearchModal() {
@@ -779,6 +802,37 @@ export default class TutorialBooking extends Component {
 		this.setState({ tutees })
 	}
 
+	checkConflictSchedules = lprs => {
+		let conflicts = []
+		// if there are conflicts return false
+		if (!!this.state.tutorialSchedules) {
+			for (lpr of lprs) {
+				for (schedule of this.state.tutorialSchedules) {
+					if (
+						lpr.timeschedule.start <= schedule.timeschedule.end &&
+						lpr.timeschedule.start >= schedule.timeschedule.start
+					) {
+						conflicts.push(
+							new Date(
+								schedule.timeschedule.start
+							).toLocaleString()
+						)
+						break
+					} else continue
+				}
+			}
+		}
+		if (!!conflicts.length) {
+			//TODO: schedules list that are conflicts show to client
+			Alert.alert(
+				'Tutor is already booked by another client on: ' + conflicts[0]
+			)
+			return true
+		}
+		//return false if no conflict
+		return false
+	}
+
 	submitData = async () => {
 		const { tutorId } = this.props
 		if (!(this.state.tutees.length > 0)) {
@@ -796,11 +850,6 @@ export default class TutorialBooking extends Component {
 				)
 				return
 			}
-			//generate booked schedules
-			let bookedSchedules = generateBookedSchedules(
-				'custom',
-				this.state.customDates
-			)
 			//generate lpr for this appointment
 			let generatedLPR = generateLPR('custom', this.state.customDates)
 			let appointmentData = {
@@ -808,20 +857,22 @@ export default class TutorialBooking extends Component {
 				tutees: this.state.tutees,
 				address: this.state.address,
 				subjects: this.state.subjects,
-				centerBased: this.state.centerBased
+				centerBased: this.state.centerBased,
+				clientId: this.props.loggedInUser.uid
 			}
+
+			let conflicted = this.checkConflictSchedules(generatedLPR)
+			if (conflicted) {
+				return
+			}
+
 			try {
 				let key = createAppointment(appointmentData)
-				for (schedule of bookedSchedules) {
-					schedule['tutorId'] = appointmentData.tutorId
-					schedule['appointmentId'] = key
-				}
 				for (lpr of generatedLPR) {
 					lpr['tutorId'] = appointmentData.tutorId
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)
-				createBookedSchedules(bookedSchedules)
 			} catch (exception) {
 				console.log(exception)
 			}
@@ -851,21 +902,23 @@ export default class TutorialBooking extends Component {
 				tutorId,
 				tutees: this.state.tutees,
 				address: this.state.address,
-				subjects: this.state.subjects
+				subjects: this.state.subjects,
+				centerBased: this.state.centerBased,
+				clientId: this.props.loggedInUser.uid
+			}
+
+			let conflicted = this.checkConflictSchedules(generatedLPR)
+			if (conflicted) {
+				return
 			}
 
 			try {
 				let key = createAppointment(appointmentData)
-				for (schedule of bookedSchedules) {
-					schedule['tutorId'] = appointmentData.tutorId
-					schedule['appointmentId'] = key
-				}
 				for (lpr of generatedLPR) {
 					lpr['tutorId'] = appointmentData.tutorId
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)
-				createBookedSchedules(bookedSchedules)
 			} catch (exception) {
 				console.log(exception)
 			}
@@ -900,3 +953,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end'
 	}
 })
+
+export default ownprops => {
+	return (
+		<RootComponentContext.Consumer>
+			{props => {
+				return <TutorialBooking {...ownprops} {...props} />
+			}}
+		</RootComponentContext.Consumer>
+	)
+}

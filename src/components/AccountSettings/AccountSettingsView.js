@@ -56,9 +56,7 @@ class AccountSettingsView extends React.Component {
 				<String text={contact} bold />
 				<String text={address} bold />
 				{accountType === 0 ? (
-					accountEnabled ? (
-						<String text={'Account Enabled'} />
-					) : (
+					accountEnabled ? null : (
 						<String
 							text={
 								"You're Account Has Not Been Enabled By Admin"
@@ -79,12 +77,16 @@ class AccountSettingsView extends React.Component {
 				{accountType === 0 ? (
 					<TutorSchedule readOnly schedule={schedule} />
 				) : null}
-				<Button text={'Edit Settings'} onPress={this.toggleEdit} />
-				<Button
-					type="warning"
-					text={'Cancel'}
-					onPress={this.props.toggleSettings}
-				/>
+				{this.props.viewOnly ? null : (
+					<Button text={'Edit Settings'} onPress={this.toggleEdit} />
+				)}
+				{this.props.viewOnly ? null : (
+					<Button
+						type="warning"
+						text={'Cancel'}
+						onPress={this.props.toggleSettings}
+					/>
+				)}
 			</ScrollView>
 		)
 	}
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		width: deviceWidth,
-		height: 200,
+		height: 'auto',
 		padding: 10
 	}
 })
