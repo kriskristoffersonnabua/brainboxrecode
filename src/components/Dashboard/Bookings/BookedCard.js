@@ -5,7 +5,6 @@ import { String, LocalImage } from '../../reusables'
 
 const BookedCard = props => {
 	const { appointment, setIdSelected } = props
-	console.log(props)
 
 	let bookedservice = Services[appointment.serviceType]
 	let schedule

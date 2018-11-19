@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { Dash, LocalImage, String, Button, Subjects } from '../../reusables'
 import MapView, { Marker } from 'react-native-maps'
-// import SubmitFeedbackModal from './SubmitFeedbackModal'
+import SubmitFeedbackModal from './SubmitFeedbackModal'
 // import LearnersProgressReport from './LPR'
 
 const Tutee = props => {
@@ -35,6 +35,12 @@ const Tutee = props => {
 }
 
 const ScheduledBooking = props => {
+	const {
+		date,
+		duration,
+		timeschedule: { start },
+		tutorialCompleted
+	} = props.schedule
 	return (
 		<View
 			elevation={2}
@@ -49,16 +55,12 @@ const ScheduledBooking = props => {
 				paddingRight: 10,
 				paddingTop: 5,
 				paddingBottom: 5,
-				backgroundColor: '#BDF287',
+				backgroundColor: tutorialCompleted ? '#BDF287' : '#e66464',
 				marginBottom: 10
 			}}>
-			<String
-				text={`${dateObject[1]} ${dateObject[2]},${dateObject[3]}(${
-					dateObject[0]
-				})`}
-			/>
-			<String text={timestart || ''} />
-			<String text={durationString || ''} />
+			<String text={new Date(date).toLocaleDateString()} />
+			<String text={new Date(start).toLocaleTimeString()} />
+			<String text={`${duration} hr/s`} />
 		</View>
 	)
 }
@@ -108,11 +110,17 @@ class BookedTutorial extends Component {
 	}
 
 	render() {
+		console.log(this.props)
 		return (
 			<ScrollView
 				style={{
 					width: '100%'
 				}}>
+				<SubmitFeedbackModal
+					cancelFeedbackModal={() => {}}
+					toggleFeedbackModal={this._toggleFeedbackModal}
+					feedbackModal={this.state.openSubmitFeedbackModal}
+				/>
 				<View style={styles.container}>
 					<View
 						style={{
@@ -143,8 +151,8 @@ class BookedTutorial extends Component {
 					<Dash
 						style={{ width: '100%', height: 2, marginBottom: 10 }}
 					/>
-					{/*!!this.state.accountType &&
-					this.state.accountType === 1 ? (
+					{!!this.props.userprofile &&
+					this.props.userprofile.accountType === 1 ? (
 						<Button
 							style={{ marginBottom: 10 }}
 							fontSize={12}
@@ -164,7 +172,7 @@ class BookedTutorial extends Component {
 							width={204}
 							height={34}
 						/>
-					)*/}
+					)}
 					<Dash
 						style={{ width: '100%', height: 2, marginBottom: 10 }}
 					/>
@@ -177,8 +185,8 @@ class BookedTutorial extends Component {
 						}}>
 						<String text={'Tutor/s:'} />
 						<String
-							text={`${this.state.firstname} ${
-								this.state.lastname
+							text={`${this.props.tutorprofile.first_name} ${
+								this.props.tutorprofile.last_name
 							}`}
 							style={{ textAlign: 'right' }}
 						/>
@@ -190,9 +198,11 @@ class BookedTutorial extends Component {
 						text={'Tutee/s:'}
 						style={{ marginBottom: 10, alignSelf: 'flex-start' }}
 					/>
-					{this.state.tutees.map((tutee, index) => {
-						return <Tutee tutee={tutee} key={index} />
-					})}
+					{this.props.selectedAppointment.tutees.map(
+						(tutee, index) => {
+							return <Tutee tutee={tutee} key={index} />
+						}
+					)}
 					<Dash
 						style={{
 							width: '100%',
@@ -212,9 +222,11 @@ class BookedTutorial extends Component {
 					<MapView
 						initialRegion={{
 							latitude:
-								this.state.addressObject.latitude || 11.249999,
+								this.props.selectedAppointment.address
+									.latitude || 11.249999,
 							longitude:
-								this.state.addressObject.longitude || 125.0,
+								this.props.selectedAppointment.address
+									.longitude || 125.0,
 							latitudeDelta: 0.0922,
 							longitudeDelta: 0.0421
 						}}
@@ -230,10 +242,11 @@ class BookedTutorial extends Component {
 						<Marker
 							coordinate={{
 								latitude:
-									this.state.addressObject.latitude ||
-									11.249999,
+									this.props.selectedAppointment.address
+										.latitude || 11.249999,
 								longitude:
-									this.state.addressObject.longitude || 125.0
+									this.props.selectedAppointment.address
+										.longitude || 125.0
 							}}
 						/>
 					</MapView>
@@ -250,9 +263,9 @@ class BookedTutorial extends Component {
 						style={{ marginBottom: 10, alignSelf: 'flex-start' }}
 					/>
 					<Subjects
-						allSubjects={subjects => this.setState({ subjects })}
+						allSubjects={() => {}}
 						readOnly
-						subjects={this.state.subjects}
+						subjects={this.props.selectedAppointment.subjects}
 					/>
 					<Dash
 						style={{
@@ -272,7 +285,14 @@ class BookedTutorial extends Component {
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}>
-						{/*lpr*/}
+						{this.props.lpr.map(lpr => {
+							return (
+								<ScheduledBooking
+									key={lpr.lprid}
+									schedule={lpr}
+								/>
+							)
+						})}
 					</View>
 				</View>
 			</ScrollView>
@@ -286,15 +306,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		padding: 10,
-		backgroundColor: '#fff'
+		backgroundColor: '#fff',
+		paddingBottom: 30
 	}
 })
 
-//        <SubmitFeedbackModal
-//          cancelFeedbackModal={() => {}}
-//          toggleFeedbackModal={this._toggleFeedbackModal}
-//          feedbackModal={this.state.openSubmitFeedbackModal}
-//        />
 //        <LearnersProgressReport
 //          isVisible={this.state.isLPRModalVisible}
 //          toggleLPRModal={this.toggleLPRModal}

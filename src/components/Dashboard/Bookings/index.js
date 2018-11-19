@@ -84,20 +84,29 @@ class Main extends Component {
 		this.dataController = null
 	}
 
-	fetchLPR = appointmentId => {
+	fetchLPRAndTutorProfile = (appointmentId, tutorId) => {
 		this.setState({ loading: true })
 		this.lprController = database
 			.ref('lpr')
 			.orderByChild('appointmentId')
 			.equalTo(appointmentId)
-			.on('value', snapshot => {
+			.on('value', async snapshot => {
 				let lprs = snapshot.val()
 				appointmentLPR = []
 				forIn(lprs, (values, key) => {
 					appointmentLPR.push({ ...values, lprid: key })
 				})
+				let tutorprofile = await database
+					.ref('userprofile')
+					.child(tutorId)
+					.once('value')
+					.then(snapshot => snapshot.val())
 				setTimeout(() => {
-					this.setState({ appointmentLPR, loading: false })
+					this.setState({
+						appointmentLPR,
+						loading: false,
+						tutorprofile
+					})
 				}, 500)
 			})
 	}
@@ -107,7 +116,10 @@ class Main extends Component {
 			appointmentSelected: appointment
 		})
 		if (appointment.serviceType === 0) {
-			this.fetchLPR(appointment.appointmentId)
+			this.fetchLPRAndTutorProfile(
+				appointment.appointmentId,
+				appointment.tutorId
+			)
 		}
 	}
 
@@ -116,10 +128,12 @@ class Main extends Component {
 			appointments,
 			loading,
 			appointmentSelected,
-			appointmentLPR
+			appointmentLPR,
+			tutorprofile = {}
 		} = this.state
 		let component
 
+		console.log(this.props)
 		if (loading) {
 			return <LoadingPage text={'Fetching schedule'} />
 		}
@@ -129,7 +143,10 @@ class Main extends Component {
 				component = (
 					<BookedTutorial
 						selectedAppointment={appointmentSelected}
+						lpr={appointmentLPR}
 						clearSelect={this.unselectAppointment}
+						userprofile={this.props.userprofile}
+						tutorprofile={tutorprofile}
 					/>
 				)
 			} else {
@@ -164,7 +181,8 @@ class Main extends Component {
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
-		padding: 10
+		padding: 10,
+		backgroundColor: '#fff'
 	}
 })
 
