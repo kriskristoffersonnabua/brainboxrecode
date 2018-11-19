@@ -45,7 +45,17 @@ class BookReviewForm extends React.Component {
 				address,
 				contact
 			},
+			schedule: [
+				Number(this.props.program.schedule[0].split(':')[0]),
+				Number(
+					this.props.program.schedule[
+						this.props.program.schedule.length - 1
+					].split(':')[0]
+				)
+			],
+			reviewschedule: this.props.program.schedule,
 			serviceId,
+			serviceType: this.props.program.serviceType,
 			price,
 			...otherState
 		}
