@@ -1,11 +1,34 @@
 import React, { Component } from 'react'
 import { LocalImage, String, Button } from '../../reusables'
-import { View, StyleSheet, Modal, TouchableOpacity, Text } from 'react-native'
+import {
+	Alert,
+	View,
+	StyleSheet,
+	Modal,
+	TouchableOpacity,
+	Text
+} from 'react-native'
 
 export default class SubmitFeedbackModal extends Component {
 	state = {
-		rating: 5
+		rating: 5,
+		remarks: ''
 	}
+
+	setRemarks = text => {
+		this.setState({ remarks: text })
+	}
+
+	submitFeedback = () => {
+		const { remarks, rating } = this.state
+		if (!Boolean(remarks)) {
+			Alert.alert('Please specify a remark in your feedback.')
+			return
+		}
+
+		this.props.submitFeedback({ rating, remarks })
+	}
+
 	render() {
 		return (
 			<Modal
@@ -47,6 +70,7 @@ export default class SubmitFeedbackModal extends Component {
 								width: '100%',
 								marginBottom: 10
 							}}
+							onChangeText={this.setRemarks}
 						/>
 						<String
 							text={'Tutor Rating:'}
@@ -185,7 +209,7 @@ export default class SubmitFeedbackModal extends Component {
 								alignSelf: 'center',
 								height: 30
 							}}
-							onPress={this.props.submitFeedback}
+							onPress={this.submitFeedback}
 						/>
 					</View>
 				</View>

@@ -39,6 +39,7 @@ class BookReviewForm extends React.Component {
 		} = this.props
 		let appointmentData = {
 			clientId: uid,
+			feedbackSubmitted: false,
 			reviewee: {
 				firstname,
 				lastname,

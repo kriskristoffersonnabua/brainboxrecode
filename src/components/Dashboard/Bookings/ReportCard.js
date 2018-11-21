@@ -42,6 +42,13 @@ class ReportCard extends React.Component {
 			time_ended,
 			remarks
 		} = this.state
+
+		//prevent tutor from adding reports to future schedule
+		if (Date.now() < this.props.lpr.timeschedule.start) {
+			Alert.alert("You can't add report for future schduele.")
+			return
+		}
+
 		if (
 			!Boolean(topicsdiscussed) ||
 			!Boolean(time_started) ||
@@ -70,15 +77,17 @@ class ReportCard extends React.Component {
 				topicsdiscussed,
 				time_started,
 				time_ended,
-				duration
+				remarks
 			} = lpr.tutorreport
+			let duration = time_ended - time_started
 			return (
 				<View
 					style={{
 						width: '100%',
 						padding: 10,
 						borderWidth: 1,
-						borderColor: '#2b2b2b'
+						borderColor: '#2b2b2b',
+						marginBottom: 10
 					}}>
 					<View
 						style={{
@@ -97,9 +106,8 @@ class ReportCard extends React.Component {
 					</View>
 					<View
 						style={{
-							flexDirection: 'row',
 							justifyContent: 'flex-start',
-							alignItems: 'center'
+							alignItems: 'flex-start'
 						}}>
 						<String bold text={'Topics Discussed: '} />
 						<String italic text={topicsdiscussed} />
@@ -121,12 +129,7 @@ class ReportCard extends React.Component {
 							alignItems: 'flex-start'
 						}}>
 						<String bold text={'Remarks:'} />
-						<String
-							italic
-							text={
-								'The tutee got to learn new ways to solve the cow method.'
-							}
-						/>
+						<String italic text={!!remarks && remarks} />
 					</View>
 				</View>
 			)
@@ -137,7 +140,8 @@ class ReportCard extends React.Component {
 						width: '100%',
 						padding: 10,
 						borderWidth: 1,
-						borderColor: '#2b2b2b'
+						borderColor: '#2b2b2b',
+						marginBottom: 10
 					}}>
 					<View
 						style={{

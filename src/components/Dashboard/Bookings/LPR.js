@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import { Button, String, Dash } from '../../reusables'
 import Modal from 'react-native-modal'
 import ReportCard from './ReportCard'
@@ -41,10 +41,12 @@ class LearnersProgressReport extends Component {
 								marginBottom: 10
 							}}
 						/>
+					</View>
+					<ScrollView>
 						{this.props.lpr.map(lpr => {
 							return <ReportCard key={lpr.lprid} lpr={lpr} />
 						})}
-					</View>
+					</ScrollView>
 				</View>
 			</Modal>
 		)

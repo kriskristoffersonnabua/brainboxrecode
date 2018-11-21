@@ -10,6 +10,7 @@ import { Dash, LocalImage, String, Button, Subjects } from '../../reusables'
 import MapView, { Marker } from 'react-native-maps'
 import SubmitFeedbackModal from './SubmitFeedbackModal'
 import LearnersProgressReport from './LPR'
+import { database } from '../../../firebase/firebase'
 
 const Tutee = props => {
 	return (
@@ -109,6 +110,28 @@ class BookedTutorial extends Component {
 		}))
 	}
 
+	submitFeedback = ({ rating, remarks }) => {
+		let feedback = {
+			appointmentId: this.props.selectedAppointment.appointmentId,
+			tutorId: this.props.selectedAppointment.tutorId,
+			rating,
+			remarks
+		}
+
+		database
+			.ref()
+			.child('feedback')
+			.push(feedback)
+
+		database
+			.ref()
+			.child('appointment')
+			.child(this.props.selectedAppointment.appointmentId)
+			.update({ feedbackSubmitted: true })
+
+		this.forceUpdate()
+	}
+
 	render() {
 		return (
 			<ScrollView
@@ -119,6 +142,7 @@ class BookedTutorial extends Component {
 					cancelFeedbackModal={() => {}}
 					toggleFeedbackModal={this._toggleFeedbackModal}
 					feedbackModal={this.state.openSubmitFeedbackModal}
+					submitFeedback={this.submitFeedback}
 				/>
 				<LearnersProgressReport
 					isVisible={this.state.isLPRModalVisible}
@@ -157,7 +181,7 @@ class BookedTutorial extends Component {
 						style={{ width: '100%', height: 2, marginBottom: 10 }}
 					/>
 					{!!this.props.userprofile &&
-					this.props.userprofile.accountType === 0 ? (
+					this.props.userprofile.accountType === 1 ? (
 						<Button
 							style={{ marginBottom: 10 }}
 							fontSize={12}
@@ -167,7 +191,9 @@ class BookedTutorial extends Component {
 							width={204}
 							height={34}
 						/>
-					) : (
+					) : !Boolean(
+						this.props.selectedAppointment.feedbackSubmitted
+					) ? (
 						<Button
 							style={{ marginBottom: 10 }}
 							fontSize={12}
@@ -177,6 +203,8 @@ class BookedTutorial extends Component {
 							width={204}
 							height={34}
 						/>
+					) : (
+						<String text={'Feedback already submitted.'} />
 					)}
 					<Dash
 						style={{ width: '100%', height: 2, marginBottom: 10 }}

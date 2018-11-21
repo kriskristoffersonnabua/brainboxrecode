@@ -864,7 +864,8 @@ class TutorialBooking extends Component {
 					this.state.customDates[this.state.customDates.length - 1]
 						.ottDate
 				],
-				serviceType: 0
+				serviceType: 0,
+				feedbackSubmitted: false
 			}
 
 			let conflicted = this.checkConflictSchedules(generatedLPR)
@@ -915,7 +916,8 @@ class TutorialBooking extends Component {
 					this.state.owtEndDate.valueOf()
 				],
 				clientId: this.props.loggedInUser.uid,
-				serviceType: 0
+				serviceType: 0,
+				feedbackSubmitted: false
 			}
 
 			let conflicted = this.checkConflictSchedules(generatedLPR)
