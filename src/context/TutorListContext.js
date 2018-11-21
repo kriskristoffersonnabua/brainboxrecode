@@ -15,7 +15,7 @@ const TutorListProvider = class extends React.Component {
 		database
 			.ref('userprofile')
 			.orderByChild('accountType')
-			.equalTo(0)
+			.equalTo(1)
 			.once('value')
 			.then(snapshot => {
 				let users = snapshot.val()

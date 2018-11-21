@@ -858,7 +858,14 @@ class TutorialBooking extends Component {
 				address: this.state.address,
 				subjects: this.state.subjects,
 				centerBased: this.state.centerBased,
-				clientId: this.props.loggedInUser.uid
+				clientId: this.props.loggedInUser.uid,
+				schedule: [
+					this.state.customDates[0].ottDate,
+					this.state.customDates[this.state.customDates.length - 1]
+						.ottDate
+				],
+				serviceType: 0,
+				feedbackSubmitted: false
 			}
 
 			let conflicted = this.checkConflictSchedules(generatedLPR)
@@ -904,7 +911,13 @@ class TutorialBooking extends Component {
 				address: this.state.address,
 				subjects: this.state.subjects,
 				centerBased: this.state.centerBased,
-				clientId: this.props.loggedInUser.uid
+				schedule: [
+					this.state.owtStartDate.valueOf(),
+					this.state.owtEndDate.valueOf()
+				],
+				clientId: this.props.loggedInUser.uid,
+				serviceType: 0,
+				feedbackSubmitted: false
 			}
 
 			let conflicted = this.checkConflictSchedules(generatedLPR)

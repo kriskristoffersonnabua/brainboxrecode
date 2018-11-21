@@ -5,7 +5,6 @@ export const StyledTextInput = glamorous.textInput((props, theme) => {
 		width: props.width || 200,
 		height: props.height || 40,
 		backgroundColor: theme.colors.whitesmoke,
-		borderRadius: 20,
 		paddingLeft: 20,
 		paddingRight: 20,
 		fontSize: props.fontSize || theme.fonts.paragraph,

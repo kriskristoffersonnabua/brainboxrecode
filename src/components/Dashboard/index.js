@@ -2,6 +2,7 @@ import * as React from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import TutorList from './Tutors'
+import Bookings from './Bookings'
 import Services from './Services'
 
 const FirstRoute = () => (
@@ -28,7 +29,7 @@ export default class TabViewExample extends React.Component {
 				renderScene={SceneMap({
 					first: Services,
 					second: TutorList,
-					third: FirstRoute
+					third: Bookings
 				})}
 				onIndexChange={index => this.setState({ index })}
 				initialLayout={{
