@@ -9,7 +9,7 @@ import {
 import { Dash, LocalImage, String, Button, Subjects } from '../../reusables'
 import MapView, { Marker } from 'react-native-maps'
 import SubmitFeedbackModal from './SubmitFeedbackModal'
-// import LearnersProgressReport from './LPR'
+import LearnersProgressReport from './LPR'
 
 const Tutee = props => {
 	return (
@@ -110,7 +110,6 @@ class BookedTutorial extends Component {
 	}
 
 	render() {
-		console.log(this.props)
 		return (
 			<ScrollView
 				style={{
@@ -120,6 +119,12 @@ class BookedTutorial extends Component {
 					cancelFeedbackModal={() => {}}
 					toggleFeedbackModal={this._toggleFeedbackModal}
 					feedbackModal={this.state.openSubmitFeedbackModal}
+				/>
+				<LearnersProgressReport
+					isVisible={this.state.isLPRModalVisible}
+					toggleLPRModal={this.toggleLPRModal}
+					progressReport={this.state.progressReport}
+					lpr={this.props.lpr}
 				/>
 				<View style={styles.container}>
 					<View
@@ -152,7 +157,7 @@ class BookedTutorial extends Component {
 						style={{ width: '100%', height: 2, marginBottom: 10 }}
 					/>
 					{!!this.props.userprofile &&
-					this.props.userprofile.accountType === 1 ? (
+					this.props.userprofile.accountType === 0 ? (
 						<Button
 							style={{ marginBottom: 10 }}
 							fontSize={12}
@@ -310,11 +315,5 @@ const styles = StyleSheet.create({
 		paddingBottom: 30
 	}
 })
-
-//        <LearnersProgressReport
-//          isVisible={this.state.isLPRModalVisible}
-//          toggleLPRModal={this.toggleLPRModal}
-//          progressReport={this.state.progressReport}
-//        />
 
 export default BookedTutorial

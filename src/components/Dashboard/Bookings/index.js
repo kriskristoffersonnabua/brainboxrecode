@@ -84,23 +84,23 @@ class Main extends Component {
 		this.dataController = null
 	}
 
-	fetchLPRAndTutorProfile = (appointmentId, tutorId) => {
+	fetchLPRAndTutorProfile = async (appointmentId, tutorId) => {
 		this.setState({ loading: true })
+		let tutorprofile = await database
+			.ref('userprofile')
+			.child(tutorId)
+			.once('value')
+			.then(snapshot => snapshot.val())
 		this.lprController = database
 			.ref('lpr')
 			.orderByChild('appointmentId')
 			.equalTo(appointmentId)
-			.on('value', async snapshot => {
+			.on('value', snapshot => {
 				let lprs = snapshot.val()
 				appointmentLPR = []
 				forIn(lprs, (values, key) => {
 					appointmentLPR.push({ ...values, lprid: key })
 				})
-				let tutorprofile = await database
-					.ref('userprofile')
-					.child(tutorId)
-					.once('value')
-					.then(snapshot => snapshot.val())
 				setTimeout(() => {
 					this.setState({
 						appointmentLPR,
