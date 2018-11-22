@@ -1,5 +1,7 @@
 import { database, auth, firebase } from './firebase'
 import { Alert } from 'react-native'
+import { assign } from 'lodash'
+
 const facebook = require('react-native-fbsdk')
 const {
 	LoginManager,
@@ -46,9 +48,41 @@ export default class User {
 										null,
 										async (error, graph) => {
 											if (!!graph) {
-												database
-													.ref(`userprofile/${uid}`)
-													.set(graph)
+												Alert.alert(
+													'Are you a tutor?',
+													null,
+													[
+														{
+															text:
+																"I'm a client.",
+															onPress: () => {
+																assign(graph, {
+																	accountType: 0
+																})
+																database
+																	.ref(
+																		`userprofile/${uid}`
+																	)
+																	.set(graph)
+															}
+														},
+														{
+															text:
+																"I'm a tutor.",
+															onPress: () => {
+																assign(graph, {
+																	accountType: 1
+																})
+																database
+																	.ref(
+																		`userprofile/${uid}`
+																	)
+																	.set(graph)
+															}
+														}
+													],
+													{ cancelable: false }
+												)
 											} else if (!!error) {
 												Alert.alert(
 													'Whoops',
@@ -60,6 +94,8 @@ export default class User {
 									new GraphRequestManager()
 										.addRequest(infoRequest)
 										.start()
+								} else {
+									Alert.alert('Welcome back! :)')
 								}
 							})
 							.catch(error =>

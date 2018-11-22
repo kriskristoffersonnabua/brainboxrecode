@@ -133,7 +133,6 @@ class Main extends Component {
 		} = this.state
 		let component
 
-		console.log(this.props)
 		if (loading) {
 			return <LoadingPage text={'Fetching schedule'} />
 		}

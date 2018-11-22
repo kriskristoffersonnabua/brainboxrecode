@@ -7,8 +7,6 @@ import ReportCard from './ReportCard'
 class LearnersProgressReport extends Component {
 	render() {
 		const { isVisible } = this.props
-		console.log('LPR')
-		console.log(this.props)
 		return (
 			<Modal isVisible={isVisible} style={styles.modalContainer}>
 				<View style={styles.LPRContainer}>
