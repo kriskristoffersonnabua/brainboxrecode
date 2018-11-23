@@ -47,7 +47,7 @@ class RootComponent extends React.Component {
 				)
 			}
 		} else if (!!loggedInUser) {
-			component = <Home />
+			component = <Home loggedInUser={loggedInUser} />
 		}
 		return <ThemedComponent>{component}</ThemedComponent>
 	}

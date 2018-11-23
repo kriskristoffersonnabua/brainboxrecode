@@ -47,8 +47,16 @@ export default class Header extends React.Component {
 					<TouchableOpacity onPress={() => this._toggleMenu()}>
 						<LocalImage
 							resize
-							source={require('../../../../assets/images/avatars/defaultTutorAvatar.png')}
+							source={
+								(!!this.props.profilepicture && {
+									uri: this.props.profilepicture.url
+								}) ||
+								require('../../../../assets/images/avatars/defaultTutorAvatar.png')
+							}
 							newWidth={57}
+							style={{
+								borderRadius: 50
+							}}
 							newHeight={61}
 						/>
 					</TouchableOpacity>
