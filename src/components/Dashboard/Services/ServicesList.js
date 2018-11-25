@@ -68,7 +68,8 @@ class Services extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		backgroundColor: '#f0f0f0'
 	},
 	services: {
 		flex: 1

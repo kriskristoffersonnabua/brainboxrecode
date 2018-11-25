@@ -44,7 +44,7 @@ export default class User {
 								) {
 									const { user: { uid } } = response
 									const infoRequest = new GraphRequest(
-										'/me?fields=email,first_name,last_name,picture',
+										'/me?fields=email,first_name,last_name,picture.type(large)',
 										null,
 										async (error, graph) => {
 											if (!!graph) {

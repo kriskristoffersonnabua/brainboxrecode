@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native'
 import { deviceWidth } from '../../../../lib/device'
 import TutorListContext from '../../../context/TutorListContext'
-import { TutorCard, LoadingPage } from '../../reusables'
+import { TutorCard, LoadingPage, Button, Dash } from '../../reusables'
 import { filter, conform } from 'lodash'
 import { User } from '../../../firebase'
 import TutorProfileView from '../../AccountSettings/AccountSettingsView'
@@ -41,23 +41,46 @@ class TutorList extends Component {
 					<View
 						style={{
 							flex: 1,
-							width: deviceWidth
+							width: '98%',
+							backgroundColor: '#fff',
+							alignSelf: 'center',
+							justifyContent: 'flex-start',
+							alignItems: 'center',
+							padding: 10
 						}}>
 						<View
 							style={{
-								width: deviceWidth,
+								width: '100%',
 								height: 30,
 								padding: 5,
 								flexDirection: 'row',
 								justifyContent: 'space-between'
 							}}>
-							<TouchableOpacity onPress={this.clearSelectedTutor}>
-								<Text>Back</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={this.showForm}>
-								<Text>Book One-On-One Tutorial</Text>
-							</TouchableOpacity>
+							<Button
+								text={'Back To List'}
+								style={{ height: 30 }}
+								onPress={this.clearSelectedTutor}
+								textStyle={{ fontSize: 10 }}
+								type="cancel"
+								style={{
+									paddingLeft: 10,
+									paddingRight: 10,
+									width: 'auto'
+								}}
+							/>
+							<Button
+								text={'Book A Tutorial'}
+								style={{ height: 30 }}
+								onPress={this.showForm}
+								textStyle={{ fontSize: 10 }}
+								style={{
+									paddingLeft: 10,
+									paddingRight: 10,
+									width: 'auto'
+								}}
+							/>
 						</View>
+						<Dash />
 						<TutorProfileView
 							profile={this.state.tutorprofile}
 							viewOnly

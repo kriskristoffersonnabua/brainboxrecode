@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import {
+	Button as NativeButton,
+	View,
+	ScrollView,
+	StyleSheet,
+	Text
+} from 'react-native'
 import { deviceWidth } from '../../../lib/device'
 import TutorSchedule from './TutorSchedule'
-import { Subjects, Dash, Textfield, Button } from '../reusables'
+import { Subjects, Dash, Textfield, Button, String } from '../reusables'
 import { assign } from 'lodash'
 
 class AccountSettingsEdit extends Component {
@@ -72,39 +78,58 @@ class AccountSettingsEdit extends Component {
 		} = this.state
 		return (
 			<ScrollView style={styles.container}>
+				<String
+					text={'Personal Information'}
+					bold
+					style={{ marginBottom: 10, marginTop: 10 }}
+				/>
 				<Textfield
-					style={{ width: '100%' }}
+					style={{ width: '100%', marginBottom: 10 }}
 					placeholder={'First Name'}
 					defaultValue={first_name}
 					onChangeText={text => this.setState({ first_name: text })}
 				/>
 				<Textfield
-					style={{ width: '100%' }}
+					style={{ width: '100%', marginBottom: 10 }}
 					placeholder={'Last Name'}
 					defaultValue={last_name}
 					onChangeText={text => this.setState({ last_name: text })}
 				/>
 				<Textfield
-					style={{ width: '100%' }}
+					style={{ width: '100%', marginBottom: 10 }}
 					placeholder={'Contact'}
 					defaultValue={contact}
 					onChangeText={text => this.setState({ contact: text })}
 				/>
 				<Textfield
-					style={{ width: '100%' }}
+					style={{ width: '100%', marginBottom: 10 }}
 					placeholder={'Address'}
 					defaultValue={address}
 					onChangeText={text => this.setState({ address: text })}
 				/>
-				{accountType === 0 ? <Dash /> : null}
-				{accountType === 0 ? (
+				{accountType === 1 ? (
+					<Dash style={{ marginTop: 10, marginBottom: 10 }} />
+				) : null}
+				<String
+					text={'Subjects Handled'}
+					bold
+					style={{ margin: 10, marginBottom: 20 }}
+				/>
+				{accountType === 1 ? (
 					<Subjects
 						allSubjectsCallback={this.setSubjects}
 						subjects={subjects}
 					/>
 				) : null}
-				{accountType === 0 ? <Dash /> : null}
-				{accountType === 0 ? (
+				{accountType === 1 ? (
+					<Dash style={{ marginBottom: 10, marginTop: 10 }} />
+				) : null}
+				<String
+					text={'Tutor Schedule'}
+					bold
+					style={{ marginBottom: 10, marginTop: 10 }}
+				/>
+				{accountType === 1 ? (
 					<TutorSchedule
 						allTutorSchedule={schedule =>
 							this.setState({ schedule })
@@ -112,7 +137,24 @@ class AccountSettingsEdit extends Component {
 						schedule={schedule}
 					/>
 				) : null}
-				<Button text={'Save'} onPress={this.saveProfile} />
+				<View
+					style={{
+						width: '100%',
+						height: 40,
+						marginTop: 10,
+						marginBottom: 50,
+						padding: 20,
+						justifyContent: 'space-between',
+						flexDirection: 'row',
+						alignItems: 'center'
+					}}>
+					<Button text={'Save'} onPress={this.saveProfile} />
+					<Button
+						type="warning"
+						text={'Cancel'}
+						onPress={this.props.toggleEditMode}
+					/>
+				</View>
 			</ScrollView>
 		)
 	}
@@ -133,7 +175,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: deviceWidth,
 		height: 200,
-		padding: 10
+		padding: 10,
+		paddingBottom: 100
 	}
 })
 
