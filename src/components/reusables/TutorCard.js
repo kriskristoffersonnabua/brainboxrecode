@@ -3,51 +3,30 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import LocalImage from './LocalImage'
 import { deviceWidth } from '../../../lib/device'
 
-const UnavailableText = props => (
-	<Text
-		style={{
-			backgroundColor: '#E66464',
-			padding: 5,
-			fontSize: 11,
-			color: '#fafafa',
-			borderRadius: 2
-		}}>
-		UNAVAILABLE
-	</Text>
-)
-
-const AvailableText = props => (
-	<Text
-		style={{
-			backgroundColor: '#BDF287',
-			padding: 5,
-			fontSize: 11,
-			color: '#fafafa',
-			borderRadius: 2
-		}}>
-		AVAILABLE
-	</Text>
-)
-
 const TutorCard = props => {
+	const { tutorInfo: { picture = null, contact } = {} } = props
 	return (
-		<View elevation={2} style={styles.tutorCardContainer}>
+		<View elevation={5} style={styles.tutorCardContainer}>
 			<TouchableOpacity style={styles.tutorCard} onPress={props.onPress}>
 				<LocalImage
 					resize
-					source={require('../../../assets/images/avatars/defaultTutorAvatar.png')}
-					newWidth={90}
-					newHeight={90}
+					source={
+						(!!picture &&
+							!!picture.data &&
+							!!picture.data.url && { uri: picture.data.url }) ||
+						require('../../../assets/images/avatars/defaultTutorAvatar.png')
+					}
+					newWidth={65}
+					newHeight={65}
+					style={{ alignSelf: 'center', borderRadius: 50 }}
 				/>
 				<View style={styles.tutorCardInformation}>
-					<Text
-						style={{
-							fontFamily: 'curlz mt',
-							fontSize: 18
-						}}>
-						{props.tutorName}
-					</Text>
-					{props.available ? <AvailableText /> : <UnavailableText />}
+					<String
+						bold
+						text={props.tutorName}
+						fontSize={{ fontSize: 12 }}
+					/>
+					<String text={contact} />
 				</View>
 			</TouchableOpacity>
 		</View>
@@ -56,7 +35,7 @@ const TutorCard = props => {
 
 const styles = StyleSheet.create({
 	tutorCardContainer: {
-		width: '90%',
+		width: '95%',
 		backgroundColor: '#fff',
 		alignSelf: 'center',
 		justifyContent: 'center',
@@ -66,7 +45,7 @@ const styles = StyleSheet.create({
 	},
 	tutorCard: {
 		flexDirection: 'row',
-		justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		width: '100%',
 		height: 90,
 		backgroundColor: '#fafafa',
@@ -74,7 +53,8 @@ const styles = StyleSheet.create({
 	},
 	tutorCardInformation: {
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		paddingRight: 10
 	}
 })
 

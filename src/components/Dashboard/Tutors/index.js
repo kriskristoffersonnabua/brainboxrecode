@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native'
+import {
+	View,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	StyleSheet
+} from 'react-native'
 import { deviceWidth } from '../../../../lib/device'
 import TutorListContext from '../../../context/TutorListContext'
 import { TutorCard, LoadingPage, Button, Dash } from '../../reusables'
@@ -40,34 +46,33 @@ class TutorList extends Component {
 				component = (
 					<View
 						style={{
-							flex: 1,
-							width: '98%',
+							width: deviceWidth,
+							height: 'auto',
 							backgroundColor: '#fff',
 							alignSelf: 'center',
 							justifyContent: 'flex-start',
-							alignItems: 'center',
-							padding: 10
+							alignItems: 'center'
 						}}>
 						<View
 							style={{
 								width: '100%',
 								height: 30,
-								padding: 5,
+								padding: 10,
 								flexDirection: 'row',
-								justifyContent: 'space-between'
+								justifyContent: 'space-between',
+								alignItems: 'center'
 							}}>
-							<Button
-								text={'Back To List'}
-								style={{ height: 30 }}
+							<TouchableOpacity
 								onPress={this.clearSelectedTutor}
-								textStyle={{ fontSize: 10 }}
-								type="cancel"
-								style={{
-									paddingLeft: 10,
-									paddingRight: 10,
-									width: 'auto'
-								}}
-							/>
+								style={styles.backButton}>
+								<LocalImage
+									source={require('../../../../assets/images/icons/backButton.png')}
+									resize
+									newWidth={25}
+									newHeight={15}
+								/>
+								<Text>BACK</Text>
+							</TouchableOpacity>
 							<Button
 								text={'Book A Tutorial'}
 								style={{ height: 30 }}
@@ -80,47 +85,57 @@ class TutorList extends Component {
 								}}
 							/>
 						</View>
-						<Dash />
-						<TutorProfileView
-							profile={this.state.tutorprofile}
-							viewOnly
-						/>
+						<Dash style={{ marginTop: 10, marginBottom: 0 }} />
+						<ScrollView
+							style={{
+								width: deviceWidth,
+								height: '100%',
+								marginBottom: 150
+							}}>
+							<TutorProfileView
+								profile={this.state.tutorprofile}
+								viewOnly
+							/>
+						</ScrollView>
 					</View>
 				)
 			}
 		} else {
-			component =
-				!!this.props.tutors &&
-				!!this.props.tutors.length &&
-				this.props.tutors.map((tutor, index) => {
-					if (tutor.accountEnabled) {
-						return (
-							<TutorCard
-								key={tutor.uid}
-								tutorName={`${tutor.first_name} ${
-									tutor.last_name
-								}`}
-								available
-								onPress={() => this.fetchUser(tutor.uid)}
-							/>
-						)
-					} else null
-				})
+			component = (
+				<ScrollView style={{ width: deviceWidth }}>
+					{!!this.props.tutors &&
+						!!this.props.tutors.length &&
+						this.props.tutors.map((tutor, index) => {
+							if (tutor.accountEnabled) {
+								return (
+									<TutorCard
+										key={tutor.uid}
+										tutorName={`${tutor.first_name} ${
+											tutor.last_name
+										}`}
+										tutorInfo={tutor}
+										style={{ marginTop: 10 }}
+										available
+										onPress={() =>
+											this.fetchUser(tutor.uid)
+										}
+									/>
+								)
+							} else null
+						})}
+				</ScrollView>
+			)
 		}
 		return (
-			<ScrollView
+			<View
 				style={{
-					width: deviceWidth
+					width: deviceWidth,
+					paddingTop: 10,
+					backgroundColor: '#fafafa',
+					flex: 1
 				}}>
-				<View
-					style={{
-						width: '100%',
-						justifyContent: 'space-around',
-						padding: 10
-					}}
-				/>
 				{component}
-			</ScrollView>
+			</View>
 		)
 	}
 
@@ -146,6 +161,14 @@ class TutorList extends Component {
 
 	unshowForm = () => this.setState({ showForm: false })
 }
+
+const styles = StyleSheet.create({
+	backButton: {
+		height: 'auto',
+		flexDirection: 'row',
+		alignItems: 'center'
+	}
+})
 
 export default props => {
 	return (

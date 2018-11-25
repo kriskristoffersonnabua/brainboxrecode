@@ -77,23 +77,37 @@ class SearchTutor extends Component {
 								<LocalImage
 									source={require('../../../../assets/images/icons/backButton.png')}
 									resize
-									newWidth={15}
+									newWidth={25}
 									newHeight={15}
 								/>
-								<Text>Services</Text>
+								<Text>BACK</Text>
 							</TouchableOpacity>
 						) : null}
 						{!!this.state.tutorprofile ? (
-							<TouchableOpacity onPress={this.unselectTutor}>
-								<Text>Back To Tutor List</Text>
+							<TouchableOpacity
+								onPress={this.unselectTutor}
+								style={styles.backButton}>
+								<LocalImage
+									source={require('../../../../assets/images/icons/backButton.png')}
+									resize
+									newWidth={25}
+									newHeight={15}
+								/>
+								<Text>BACK</Text>
 							</TouchableOpacity>
 						) : null}
 						{!!!this.state.showForm && !!this.state.tutorprofile ? (
-							<TouchableOpacity onPress={this.showForm}>
-								<Text>Show Form</Text>
-							</TouchableOpacity>
+							<Button
+								onPress={this.showForm}
+								text={'Book Tutorial'}
+								textStyle={{ fontSize: 12 }}
+								type="confirm"
+							/>
 						) : null}
 					</View>
+				) : null}
+				{!!!this.state.tutorprofile ? (
+					<Dash style={{ marginTop: 10 }} />
 				) : null}
 				{!!this.state.showForm ? (
 					<RootComponentContext.Consumer>
@@ -107,6 +121,9 @@ class SearchTutor extends Component {
 							)
 						}}
 					</RootComponentContext.Consumer>
+				) : null}
+				{!!this.state.tutorprofile ? (
+					<Dash style={{ marginTop: 10, marginBottom: 0 }} />
 				) : null}
 				{!!this.state.tutorprofile && !!!this.state.showForm ? (
 					<TutorProfileView
@@ -145,6 +162,7 @@ class SearchTutor extends Component {
 						</View>
 					</View>
 				) : null}
+				{!!!this.state.tutorprofile ? <Dash /> : null}
 				{!!!this.state.tutorprofile ? (
 					<View
 						style={{
@@ -160,7 +178,7 @@ class SearchTutor extends Component {
 								style={{
 									margin: 10
 								}}>
-								Results:
+								Search Result:
 							</Text>
 						) : null}
 						<ScrollView style={{ width: '100%', paddingTop: 10 }}>
@@ -177,11 +195,10 @@ class SearchTutor extends Component {
 														}`) ||
 													'tutor'
 												}
+												tutorInfo={tutor}
 												available
 												onPress={() =>
-													this.props.setTutorId(
-														tutor.uid
-													)
+													this.fetchUser(tutor.uid)
 												}
 											/>
 										)
@@ -199,6 +216,7 @@ class SearchTutor extends Component {
 														}`) ||
 													'tutor'
 												}
+												tutorInfo={tutor}
 												available
 												onPress={() =>
 													this.fetchUser(tutor.uid)
@@ -240,7 +258,8 @@ const styles = StyleSheet.create({
 		height: 25,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginBottom: 10
 	},
 	backButton: {
 		flexDirection: 'row',
@@ -250,7 +269,7 @@ const styles = StyleSheet.create({
 	},
 	searchSection: {
 		width: 330,
-		height: 185,
+		height: 120,
 		backgroundColor: '#fafafa',
 		marginTop: 5,
 		borderRadius: 5,

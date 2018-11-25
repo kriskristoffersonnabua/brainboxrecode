@@ -54,8 +54,9 @@ class PSHSPrograms extends Component {
 			}
 		} else
 			Component = (
-				<View style={styles.container}>
-					<Text>No Programs in CSC Review</Text>
+				<View
+					style={{ width: '80%', alignSelf: 'center', padding: 10 }}>
+					<String bold text="No Review Posted" />
 				</View>
 			)
 		return (
@@ -76,8 +77,8 @@ class PSHSPrograms extends Component {
 						<Button
 							type="confirm"
 							text={'Book Review'}
+							textStyle={{ fontSize: 12 }}
 							onPress={this.showBookForm}
-							fontSize={12}
 							width={120}
 							height={30}
 						/>
@@ -98,7 +99,9 @@ const styles = StyleSheet.create({
 		padding: 10
 	},
 	backButton: {
-		height: 'auto'
+		height: 'auto',
+		flexDirection: 'row',
+		alignItems: 'center'
 	}
 })
 
