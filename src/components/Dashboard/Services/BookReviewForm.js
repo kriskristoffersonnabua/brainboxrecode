@@ -1,8 +1,9 @@
 import React from 'react'
 import { Modal, View, Text, StyleSheet, AsyncStorage } from 'react-native'
-import { String, Textfield, Button } from '../../reusables'
+import { String, Textfield, Button, Dash } from '../../reusables'
 import RootComponentContext from '../../../context/RootComponentContext'
 import { Appointment, Service } from '../../../firebase'
+import { Services } from '../../../../lib/constants'
 
 class BookReviewForm extends React.Component {
 	state = {
@@ -88,14 +89,25 @@ class BookReviewForm extends React.Component {
 					<View style={styles.modalWrapper}>
 						<String
 							style={styles.programTitle}
-							text={'Civil Service Review'}
+							text={Services[this.props.program.serviceType]}
+							bold
 						/>
+						<Dash style={{ marginBottom: 10, marginTop: 10 }} />
 						<View style={styles.programForm}>
-							<String text={'Reviewiee Information:'} />
+							<String
+								bold
+								text={'Reviewee Information:'}
+								style={{ marginBottom: 10 }}
+							/>
 							<Textfield
 								onChangeText={text =>
 									this.setState({ firstname: text })
 								}
+								style={{
+									width: '100%',
+									marginBottom: 10,
+									marginTop: 10
+								}}
 								placeholder={'Firstname'}
 								value={firstname || ''}
 							/>
@@ -103,6 +115,10 @@ class BookReviewForm extends React.Component {
 								onChangeText={text =>
 									this.setState({ lastname: text })
 								}
+								style={{
+									width: '100%',
+									marginBottom: 10
+								}}
 								placeholder={'Lastname'}
 								value={lastname || ''}
 							/>
@@ -110,6 +126,10 @@ class BookReviewForm extends React.Component {
 								onChangeText={text =>
 									this.setState({ address: text })
 								}
+								style={{
+									width: '100%',
+									marginBottom: 10
+								}}
 								placeholder={'Address'}
 								value={address || ''}
 							/>
@@ -117,10 +137,15 @@ class BookReviewForm extends React.Component {
 								onChangeText={text =>
 									this.setState({ contact: text })
 								}
+								style={{
+									width: '100%',
+									marginBottom: 10
+								}}
 								placeholder={'Contact'}
 								value={contact || ''}
 							/>
 						</View>
+						<Dash />
 						<View style={styles.programCTAS}>
 							<Button
 								text={'Cancel'}
@@ -152,17 +177,20 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(43,43,43,0.24)'
 	},
 	modalWrapper: {
-		width: 300,
-		height: 380,
+		width: '90%',
+		height: 'auto',
+		padding: 10,
 		backgroundColor: '#fafafa'
 	},
 	programTitle: {
 		width: '100%',
-		height: 50,
-		backgroundColor: '#E66464',
+		height: 'auto',
 		padding: 10,
-		color: '#fafafa',
-		fontSize: 14
+		color: '#2b2b2b',
+		fontSize: 16,
+		alignSelf: 'center',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	programForm: {
 		width: '100%',
@@ -173,8 +201,6 @@ const styles = StyleSheet.create({
 	programCTAS: {
 		height: 'auto',
 		width: '100%',
-		position: 'absolute',
-		bottom: 0,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
