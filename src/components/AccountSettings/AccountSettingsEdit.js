@@ -110,11 +110,13 @@ class AccountSettingsEdit extends Component {
 				{accountType === 1 ? (
 					<Dash style={{ marginTop: 10, marginBottom: 10 }} />
 				) : null}
-				<String
-					text={'Subjects Handled'}
-					bold
-					style={{ margin: 10, marginBottom: 20 }}
-				/>
+				{accountType === 1 ? (
+					<String
+						text={'Subjects Handled'}
+						bold
+						style={{ margin: 10, marginBottom: 20 }}
+					/>
+				) : null}
 				{accountType === 1 ? (
 					<Subjects
 						allSubjectsCallback={this.setSubjects}
@@ -124,11 +126,13 @@ class AccountSettingsEdit extends Component {
 				{accountType === 1 ? (
 					<Dash style={{ marginBottom: 10, marginTop: 10 }} />
 				) : null}
-				<String
-					text={'Tutor Schedule'}
-					bold
-					style={{ marginBottom: 10, marginTop: 10 }}
-				/>
+				{accountType === 1 ? (
+					<String
+						text={'Tutor Schedule'}
+						bold
+						style={{ marginBottom: 10, marginTop: 10 }}
+					/>
+				) : null}
 				{accountType === 1 ? (
 					<TutorSchedule
 						allTutorSchedule={schedule =>
