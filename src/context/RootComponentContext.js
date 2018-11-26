@@ -16,7 +16,7 @@ const RootComponentProvider = class extends React.Component {
 	}
 
 	componentDidMount() {
-		auth.onAuthStateChanged(user => {
+		this.controller = auth.onAuthStateChanged(user => {
 			setTimeout(() => {
 				this.setState({
 					loggedInUser: user,
@@ -24,6 +24,10 @@ const RootComponentProvider = class extends React.Component {
 				})
 			}, 500)
 		})
+	}
+
+	componentWillUnmount() {
+		this.controller = null
 	}
 
 	render() {

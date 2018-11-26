@@ -12,12 +12,11 @@ const TutorListProvider = class extends React.Component {
 	}
 
 	componentDidMount() {
-		database
+		this.controller = database
 			.ref('userprofile')
 			.orderByChild('accountType')
 			.equalTo(1)
-			.once('value')
-			.then(snapshot => {
+			.once('value', snapshot => {
 				let users = snapshot.val()
 				tutors = []
 				forIn(users, (values, key) => {
@@ -25,9 +24,10 @@ const TutorListProvider = class extends React.Component {
 				})
 				this.setState({ tutors })
 			})
-			.catch(exception => {
-				Alert.alert('Something went wrong.')
-			})
+	}
+
+	componenWillUnmount() {
+		this.controller = null
 	}
 
 	render() {

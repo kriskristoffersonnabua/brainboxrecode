@@ -2,6 +2,7 @@ import React from 'react'
 import CEEPrograms from './CEEPrograms'
 import { database } from '../../../../firebase/firebase'
 import { forIn } from 'lodash'
+import { LoadingPage } from '../../../reusables'
 
 export default class CEEProgramsWithResource extends React.Component {
 	state = {
@@ -9,6 +10,7 @@ export default class CEEProgramsWithResource extends React.Component {
 	}
 
 	componentDidMount() {
+		this.setState({ loading: true })
 		database
 			.ref('service')
 			.orderByChild('serviceType')
@@ -19,11 +21,15 @@ export default class CEEProgramsWithResource extends React.Component {
 				forIn(programsobject, (values, key) => {
 					programs.push({ serviceId: key, ...values })
 				})
-				this.setState({ programs })
+				this.setState({ programs, loading: false })
 			})
 	}
 
 	render() {
+		if (!!this.state.loading) {
+			return <LoadingPage text="Fetching List of Reviews" />
+		}
+
 		return (
 			<CEEPrograms
 				back={this.props.back}
