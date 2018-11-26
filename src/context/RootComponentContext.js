@@ -27,7 +27,7 @@ const RootComponentProvider = class extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this.controller = null
+		this.controller = false
 	}
 
 	render() {

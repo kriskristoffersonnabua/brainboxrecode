@@ -41,7 +41,7 @@ class Main extends Component {
 		this.setState({ appointmentSelected: false, appointmentLPR: false })
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		if (!!this.props.loggedInUser && !!this.props.userprofile) {
 			if (!!!this.dataController) {
 				if (this.props.userprofile.accountType === AccountType.Client)
@@ -58,7 +58,7 @@ class Main extends Component {
 									appointmentId: key
 								})
 							})
-							this.setState({ appointments })
+							if (this._isMounted) this.setState({ appointments })
 						})
 				else
 					this.dataController = database
@@ -74,13 +74,61 @@ class Main extends Component {
 									appointmentId: key
 								})
 							})
-							this.setState({ appointments })
+							if (this._isMounted) this.setState({ appointments })
 						})
+			} else if (!!this.dataController) {
+				if (
+					!!prevProps.loggedInUser &&
+					prevProps.loggedInUser.uid != this.props.loggedInUser.uid
+				) {
+					if (
+						this.props.userprofile.accountType ===
+						AccountType.Client
+					)
+						this.dataController = database
+							.ref()
+							.child('appointment')
+							.orderByChild('clientId')
+							.equalTo(this.props.loggedInUser.uid)
+							.on('value', snapshot => {
+								let appointments = []
+								forIn(snapshot.val(), (values, key) => {
+									appointments.push({
+										...values,
+										appointmentId: key
+									})
+								})
+								if (this._isMounted)
+									this.setState({ appointments })
+							})
+					else
+						this.dataController = database
+							.ref()
+							.child('appointment')
+							.orderByChild('tutorId')
+							.equalTo(this.props.loggedInUser.uid)
+							.on('value', snapshot => {
+								let appointments = []
+								forIn(snapshot.val(), (values, key) => {
+									appointments.push({
+										...values,
+										appointmentId: key
+									})
+								})
+								if (this._isMounted)
+									this.setState({ appointments })
+							})
+				}
 			}
 		}
 	}
 
+	componentDidMount() {
+		this._isMounted = true
+	}
+
 	componentWillUnmount() {
+		this._isMounted = false
 		this.dataController = null
 	}
 
