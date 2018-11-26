@@ -44,7 +44,7 @@ class Home extends React.Component {
 					signOut={User.signoutUser}
 					toggleSettings={this.toggleSettings}
 				/>
-				<Dashboard />
+				<Dashboard userprofile={userprofile} />
 			</HomeContainer>
 		)
 	}
