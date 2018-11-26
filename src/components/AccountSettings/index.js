@@ -29,9 +29,11 @@ class AccountSettingsMain extends React.Component {
 		if (!!!this.state.profile && loggedInUser) {
 			this.fetchUserProfile()
 		}
+
 		if (fetchingProfile) {
 			return <LoadingPage text={'Fetching User Profile'} />
 		}
+
 		let component
 		if (editMode) {
 			return <AccountSettingsEdit {...this.state} {...fns} />
@@ -45,12 +47,14 @@ class AccountSettingsMain extends React.Component {
 
 	fetchUserProfile = () => {
 		const { loggedInUser = null } = this.props
-		let promise = User.getUserProfile(loggedInUser.uid)
-		promise.then(value => {
-			setTimeout(() => {
-				this.setState({ profile: value, fetchingProfile: false })
-			}, 500)
-		})
+		if (!!loggedInUser) {
+			let promise = User.getUserProfile(loggedInUser.uid)
+			promise.then(value => {
+				setTimeout(() => {
+					this.setState({ profile: value, fetchingProfile: false })
+				}, 500)
+			})
+		}
 	}
 
 	updateUserProfile = data => {
