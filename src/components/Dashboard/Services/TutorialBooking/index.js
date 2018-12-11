@@ -877,6 +877,7 @@ class TutorialBooking extends Component {
 				let key = createAppointment(appointmentData)
 				for (lpr of generatedLPR) {
 					lpr['tutorId'] = appointmentData.tutorId
+					lpr['tutees'] = appointmentData.tutees
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)
@@ -929,6 +930,7 @@ class TutorialBooking extends Component {
 				let key = createAppointment(appointmentData)
 				for (lpr of generatedLPR) {
 					lpr['tutorId'] = appointmentData.tutorId
+					lpr['tutees'] = appointmentData.tutees
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)

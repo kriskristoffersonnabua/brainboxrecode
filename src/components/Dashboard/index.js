@@ -4,6 +4,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import TutorList from './Tutors'
 import Bookings from './Bookings'
 import Services from './Services'
+import TutorialRecords from './TutorialHistory'
 import { LoadingPage } from '../reusables'
 
 const FirstRoute = () => (
@@ -59,12 +60,17 @@ export default class TabViewExample extends React.Component {
 						index: this.state.index,
 						routes: [
 							{ key: 'first', title: 'Tutors' },
-							{ key: 'second', title: 'My Booked Tutorials' }
+							{ key: 'second', title: 'My Bookings' },
+							{
+								key: 'third',
+								title: 'Records'
+							}
 						]
 					}}
 					renderScene={SceneMap({
 						first: TutorList,
-						second: BookingInstance
+						second: BookingInstance,
+						third: TutorialRecords
 					})}
 					onIndexChange={index => this.setState({ index })}
 					initialLayout={{
