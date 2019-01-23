@@ -16,7 +16,7 @@ class RecordsClass extends Component {
 	fetchLPRS = () => {
 		const { tid } = this.props
 		console.log(tid)
-		if (!!!this.datacontroller && !!tid) {
+		if (!!!this.datacontroller && !!tid && this._mounted) {
 			console.log('sumulod')
 			this.datacontroller = database
 				.ref()
@@ -41,6 +41,11 @@ class RecordsClass extends Component {
 
 	componentWillUnmount() {
 		this.datacontroller = null
+		this._mounted = false
+	}
+
+	componentDidMount() {
+		this._mounted = true
 	}
 
 	render() {

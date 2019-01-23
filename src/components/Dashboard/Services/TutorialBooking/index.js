@@ -262,7 +262,7 @@ class TutorialBooking extends Component {
 					}
 				)
 			})
-			.catch(error => console.log(error.message))
+			.catch(error => console.warn(error.message))
 	}
 
 	render() {
@@ -881,8 +881,12 @@ class TutorialBooking extends Component {
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)
+				Alert.alert('Tutorial Booked.')
+				setTimeout(() => {
+					this.props.cancelTutorSelection()
+				}, 2000)
 			} catch (exception) {
-				console.log(exception)
+				console.warn(exception)
 			}
 		}
 		if (this.state.owt) {
@@ -934,8 +938,12 @@ class TutorialBooking extends Component {
 					lpr['appointmentId'] = key
 				}
 				createGeneratedLPR(generatedLPR)
+				Alert.alert('Tutorial Booked.')
+				setTimeout(() => {
+					this.props.cancelTutorSelection()
+				}, 2000)
 			} catch (exception) {
-				console.log(exception)
+				console.warn(exception)
 			}
 		}
 	}
