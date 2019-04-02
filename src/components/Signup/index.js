@@ -60,12 +60,12 @@ export default class Signup extends React.Component {
 						<AccountTypeChoice>
 							<RadioButton
 								onPress={this.changeAccountTypeToTutor}
-								active={this.state.accountType === 0}
+								active={this.state.accountType === 1}
 								text={'Tutor'}
 							/>
 							<RadioButton
 								onPress={this.changeAccountTypeToClient}
-								active={this.state.accountType === 1}
+								active={this.state.accountType === 0}
 								text={'Client'}
 							/>
 						</AccountTypeChoice>
@@ -86,9 +86,7 @@ export default class Signup extends React.Component {
 					/>
 					<Textfield
 						placeholder="Firstname"
-						onChangeText={first_name =>
-							this.setState({ first_name })
-						}
+						onChangeText={first_name => this.setState({ first_name })}
 						value={this.state.first_name}
 						style={{ width: 300, marginBottom: 10 }}
 					/>
@@ -134,8 +132,7 @@ export default class Signup extends React.Component {
 								height: 40
 							}}
 						/>
-						<TouchableOpacity
-							onPress={this.props.toggleSignupLoginPage}>
+						<TouchableOpacity onPress={this.props.toggleSignupLoginPage}>
 							<String
 								style={{
 									borderRadius: 20,
