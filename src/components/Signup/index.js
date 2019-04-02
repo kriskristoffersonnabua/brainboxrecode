@@ -152,8 +152,8 @@ export default class Signup extends React.Component {
 		)
 	}
 
-	changeAccountTypeToTutor = () => this.setState({ accountType: 0 })
-	changeAccountTypeToClient = () => this.setState({ accountType: 1 })
+	changeAccountTypeToTutor = () => this.setState({ accountType: 1 })
+	changeAccountTypeToClient = () => this.setState({ accountType: 0 })
 
 	submitData = event => {
 		const {
