@@ -38,13 +38,15 @@ export default class TabViewExample extends React.Component {
 						routes: [
 							{ key: 'first', title: 'Services' },
 							{ key: 'second', title: 'Tutors' },
-							{ key: 'third', title: 'My Bookings' }
+							{ key: 'third', title: 'My Bookings' },
+							{ key: 'fourth', title: 'Shop' }
 						]
 					}}
 					renderScene={SceneMap({
 						first: Services,
 						second: TutorList,
-						third: BookingInstance
+						third: BookingInstance,
+						fourth: FirstRoute
 					})}
 					onIndexChange={index => this.setState({ index })}
 					initialLayout={{
@@ -70,7 +72,8 @@ export default class TabViewExample extends React.Component {
 					renderScene={SceneMap({
 						first: TutorList,
 						second: BookingInstance,
-						third: TutorialRecords
+						third: TutorialRecords,
+						fourth: FirstRoute
 					})}
 					onIndexChange={index => this.setState({ index })}
 					initialLayout={{

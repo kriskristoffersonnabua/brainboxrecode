@@ -15,9 +15,7 @@ class RecordsClass extends Component {
 
 	fetchLPRS = () => {
 		const { tid } = this.props
-		console.log(tid)
 		if (!!!this.datacontroller && !!tid && this._mounted) {
-			console.log('sumulod')
 			this.datacontroller = database
 				.ref()
 				.child('lpr')
@@ -25,7 +23,6 @@ class RecordsClass extends Component {
 				.equalTo(tid)
 				.on('value', snapshot => {
 					let lprsSnapshot = snapshot.val()
-					console.log(lprsSnapshot)
 
 					let lprs = []
 					forIn(lprsSnapshot, (lpr, key) => {
@@ -68,8 +65,7 @@ const RecordsProvider = ownprops => {
 				// if (!!!loggedInUser) return <LoadingPage />
 
 				return (
-					<RecordsClass
-						tid={(!!loggedInUser && loggedInUser.uid) || ''}>
+					<RecordsClass tid={(!!loggedInUser && loggedInUser.uid) || ''}>
 						{ownprops.children}
 					</RecordsClass>
 				)
